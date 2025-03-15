@@ -21,6 +21,17 @@ import androidx.compose.ui.unit.sp
 import com.kzcse.tfliteconcept.Classifier
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.*
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,7 +46,7 @@ fun ClassificationScreen(
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            delay(1500) // Simulate processing delay for better UX
+            delay(5000) // Simulate processing delay for better UX
             result = Classifier(context).classifyImage(bitmap)
             isLoading = false
         }
@@ -97,14 +108,13 @@ fun ImageWithProgress(bitmap: Bitmap, isLoading: Boolean, isSuccess: Boolean) {
         if (isLoading) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .matchParentSize()
                     .height(10.dp)
                     .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.7f))
-                    .align(Alignment.TopCenter)
+                    .align(Alignment.Center)
             ) {
-                LinearProgressIndicator(
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.primary
+                CircularProgressIndicator(
+                    modifier = Modifier.size(64.dp).align(Alignment.Center)
                 )
             }
         }
@@ -140,4 +150,44 @@ fun DisplayResult(result: String?, isLoading: Boolean) {
             modifier = Modifier.fillMaxWidth().padding(16.dp)
         )
     }
+}
+
+@Composable
+fun ScannerProgressBar(
+    modifier: Modifier = Modifier,
+    barColor: Color = MaterialTheme.colorScheme.primary,
+    scanSpeed: Int = 1500
+) {
+    val infiniteTransition = rememberInfiniteTransition()
+    val animatedOffset by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(scanSpeed, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        )
+    )
+
+    Canvas(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(200.dp)
+    ) {
+        val canvasHeight = size.height
+        val progressY = canvasHeight * animatedOffset
+
+        drawLine(
+            color = barColor,
+            start = Offset(0f, progressY),
+            end = Offset(size.width, progressY),
+            strokeWidth = 8f,
+            cap = StrokeCap.Round
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewScannerProgressBar() {
+
 }
