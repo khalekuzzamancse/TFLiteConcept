@@ -47,8 +47,15 @@ fun ClassificationScreen(
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             delay(5000) // Simulate processing delay for better UX
-            result = Classifier(context).classifyImage(bitmap)
-            isLoading = false
+            result = try {
+                Classifier(context).classifyImage(bitmap)
+
+            } catch (e:Exception){
+                null
+            } finally {
+                isLoading = false
+            }
+
         }
     }
 

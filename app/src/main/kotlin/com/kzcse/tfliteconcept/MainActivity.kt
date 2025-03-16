@@ -101,6 +101,9 @@ fun AppMainRoute(modifier: Modifier = Modifier) {
                         MainViewModel.processImage=it
                         navigator.navigate(NavDestination.Process)
 
+                    },
+                    onMediaPickRequest = {
+                        navigator.navigate(NavDestination.MediaPicker)
                     }
                 ),
 

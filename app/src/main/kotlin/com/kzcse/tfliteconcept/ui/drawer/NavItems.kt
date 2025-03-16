@@ -3,12 +3,12 @@ package com.kzcse.tfliteconcept.ui.drawer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
+import androidx.compose.material.icons.filled.Fingerprint
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Image
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.PermDeviceInformation
+import androidx.compose.material.icons.outlined.Fingerprint
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Image
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.PermDeviceInformation
 
@@ -27,11 +27,14 @@ sealed interface NavDestination : Destination {
         override val route = "AboutApp"
     }
 
-    data object ImageGallery : NavDestination {
+    data object Recognize : NavDestination {
         override val route = "ImageGallery"
     }
     data object Process : NavDestination {
         override val route = "Process"
+    }
+    data object MediaPicker : NavDestination {
+        override val route = "MediaPicker"
     }
 
     data object AboutUs : NavDestination {
@@ -78,10 +81,10 @@ object NavDestinationBuilder {
     private fun group3() = NavGroup(
         items = listOf(
             NavigationItem(
-                label = "Image Gallery",
-                unFocusedIcon = Icons.Outlined.Image,
-                focusedIcon = Icons.Filled.Image,
-                destination = NavDestination.ImageGallery
+                label = "Recognize",
+                unFocusedIcon = Icons.Outlined.Fingerprint,
+                focusedIcon = Icons.Filled.Fingerprint,
+                destination = NavDestination.Recognize
             ),
 
         )

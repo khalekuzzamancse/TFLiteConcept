@@ -15,12 +15,12 @@ import androidx.navigation.createGraph
 import com.kzcse.tfliteconcept.ui.drawer.NavDestination
 
 
-
 fun NavController.createNavGraph(
     isNavRailMode: Boolean,
     openDrawerRequest: () -> Unit,
-    onAppInfoRequest:()->Unit,
-    onProcessRequest:(Bitmap)->Unit,
+    onAppInfoRequest: () -> Unit,
+    onProcessRequest: (Bitmap) -> Unit,
+    onMediaPickRequest: () -> Unit,
 ): NavGraph {
     return createGraph(startDestination = NavDestination.Home.route) {
         composable(NavDestination.Home.route) {
@@ -35,21 +35,22 @@ fun NavController.createNavGraph(
             )
 
         }
-        composable(NavDestination.ImageGallery.route) {
-           GalleryScreen(
-                navigationIcon={
+        composable(NavDestination.Recognize.route) {
+            GalleryScreen(
+                navigationIcon = {
                     _DrawerIcon(
                         isNavRailMode = isNavRailMode,
                         onClick = openDrawerRequest
                     )
                 },
-                onImageClick=onProcessRequest
+                onImageClick = onProcessRequest,
+                onNavigation = onMediaPickRequest
             )
 
 
         }
         composable(NavDestination.UseManual.route) {
-            UserManualScreen{
+            UserManualScreen {
                 _DrawerIcon(
                     isNavRailMode = isNavRailMode,
                     onClick = openDrawerRequest
@@ -58,7 +59,7 @@ fun NavController.createNavGraph(
 
         }
         composable(NavDestination.AboutApp.route) {
-            AppInfoPage{
+            AppInfoPage {
                 _DrawerIcon(
                     isNavRailMode = isNavRailMode,
                     onClick = openDrawerRequest
@@ -75,22 +76,36 @@ fun NavController.createNavGraph(
             })
         }
         composable(
-           route = NavDestination.Process.route
+            route = NavDestination.Process.route
         ) {
-            MainViewModel.processImage?.let { bitmap->
+            MainViewModel.processImage?.let { bitmap ->
                 ClassificationScreen(
                     bitmap = bitmap,
                     navigationIcon = {
+                        _DrawerIcon(
+                            isNavRailMode = isNavRailMode,
+                            onClick = openDrawerRequest
+                        )
+                    })
+            }
+
+        }
+        composable(
+            route = NavDestination.MediaPicker.route
+        ) {
+            MediaPicker(
+                navigationIcon = {
                     _DrawerIcon(
                         isNavRailMode = isNavRailMode,
                         onClick = openDrawerRequest
                     )
-                })
-            }
+                },
+                onBitmapSelected = {bitmap->
+                    bitmap?.let(onProcessRequest)
+                }
+            )
 
         }
-
-
 
 
     }
