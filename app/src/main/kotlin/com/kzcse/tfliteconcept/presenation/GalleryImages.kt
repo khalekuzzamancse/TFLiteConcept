@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.provider.MediaStore
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -67,7 +68,6 @@ val galleryImages = listOf(
     R.drawable.other_02
 )
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun GalleryScreen(
     navigationIcon: @Composable () -> Unit,
@@ -75,7 +75,6 @@ fun GalleryScreen(
     onNavigation: () -> Unit,
 ) {
     var cropImage by remember { mutableStateOf<Bitmap?>(null) }
-
     if(cropImage!=null){
         ImageCropScreen(
             imageBitmap = cropImage!!.asImageBitmap(),
@@ -94,7 +93,7 @@ fun GalleryScreen(
 
             },
             navigationIcon=navigationIcon,
-            onNavigation = {}
+            onNavigation = onNavigation
         )
 
     }
@@ -135,6 +134,7 @@ fun GalleryScreen(
         }
     }
     Scaffold(
+        modifier = modifier,
         topBar = {
             TopAppBar(
                 title = {
