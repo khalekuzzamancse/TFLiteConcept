@@ -54,13 +54,13 @@ private fun AppName() {
     val text = buildAnnotatedString {
         append(
             AnnotatedString(
-                text = "Algorithm",
+                text = "Hilsha",
                 spanStyle = SpanStyle(MaterialTheme.colorScheme.primary)
             )
         )
         append(
             AnnotatedString(
-                text = " Visualizer",
+                text = " Detector",
                 spanStyle = SpanStyle(MaterialTheme.colorScheme.secondary)
             )
         )

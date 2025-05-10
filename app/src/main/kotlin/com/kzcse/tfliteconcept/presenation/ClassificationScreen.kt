@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,13 +37,28 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kzcse.tfliteconcept.data.Classifier
 import com.kzcse.tfliteconcept.domain.Logger
 import com.kzcse.tfliteconcept.domain.CustomException
 import com.kzcse.tfliteconcept.presenation.core.GlobalMessenger
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+class  ClassifierViewModel:ViewModel(){
+    private val _result= MutableStateFlow<String?>(null)
+    val result=_result.asStateFlow()
+    private val _isLoading= MutableStateFlow(true)
+    val isLoading=_isLoading.asStateFlow()
+    fun setLoading(value:Boolean)=_isLoading.update { value }
+    fun setResult(result: String?){
+        _result.update { result }
+    }
 
+}
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClassificationScreen(
@@ -51,23 +67,23 @@ fun ClassificationScreen(
 ) {
     val tag="ClassificationScreen";
     val context = LocalContext.current
-    var result by remember { mutableStateOf<String?>(null) }
-    var isLoading by remember { mutableStateOf(true) }
+    val viewModel= viewModel{ClassifierViewModel()}
+    val result=viewModel.result.collectAsState().value
+    val isLoading=viewModel.isLoading.collectAsState().value
     val coroutineScope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             delay(2000) // Simulate processing delay for better UX
-            result = try {
-                Classifier(context).classifyOrThrow(bitmap)
+             try {
+               viewModel.setResult(Classifier(context).classifyOrThrow(bitmap))
             } catch (e:Throwable){
                 if(e is CustomException)
                     GlobalMessenger.updateMessage(e)
-
                 Logger.error(tag,e)
-                null
+               viewModel.setResult(null)
             } finally {
-                isLoading = false
+                viewModel.setLoading(false)
             }
 
         }

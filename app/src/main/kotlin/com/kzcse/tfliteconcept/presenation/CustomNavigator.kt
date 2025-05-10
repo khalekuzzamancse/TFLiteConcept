@@ -4,20 +4,17 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.kzcse.tfliteconcept.presenation.core.drawer.Destination
 
-class Navigator(
-    private val navController: NavHostController,
-) {
+object CustomNavigator{
 
-    internal fun navigate(destination: Destination) {
-        navigateAsTopMostDestination(destination.route)
-
+    internal fun navigate(navController: NavHostController,destination: Destination) {
+        navController.navigate(destination.route)
     }
 
-    fun pop() {
+    fun pop(navController: NavHostController,) {
         navController.popBackStack()
     }
 
-    private fun navigateAsTopMostDestination(destination: String) {
+     fun navigateAsTopMostDestination(navController: NavHostController,destination: String) {
         return try {
             println("Navigate:$destination")
             navController.navigate(destination) {

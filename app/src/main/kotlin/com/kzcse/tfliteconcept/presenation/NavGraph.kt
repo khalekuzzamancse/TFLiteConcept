@@ -43,8 +43,7 @@ fun NavController.createNavGraph(
                         onClick = openDrawerRequest
                     )
                 },
-                onImageClick = onProcessRequest,
-                onNavigation = onMediaPickRequest,
+                onProcessRequest = onProcessRequest,
             )
 
 

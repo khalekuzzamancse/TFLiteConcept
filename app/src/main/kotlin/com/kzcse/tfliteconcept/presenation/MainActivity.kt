@@ -1,6 +1,7 @@
 package com.kzcse.tfliteconcept.presenation
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +26,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.Navigator
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.kzcse.tfliteconcept.data.Classifier
@@ -35,6 +39,7 @@ import com.kzcse.tfliteconcept.presenation.core.drawer.DrawerHeader
 import com.kzcse.tfliteconcept.presenation.core.drawer.DrawerToNavRailDecorator
 import com.kzcse.tfliteconcept.presenation.core.drawer.NavDestination
 import com.kzcse.tfliteconcept.presenation.core.drawer.NavDestinationBuilder
+import com.kzcse.tfliteconcept.presenation.core.drawer.NavigationDrawerController
 import com.kzcse.tfliteconcept.presenation.core.drawer.NavigationEvent
 import kotlinx.coroutines.launch
 
@@ -70,15 +75,24 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+class MainViewModel :ViewModel(){
+    companion object{
+        var processImage: Bitmap?=null
+    }
+    val controller = NavigationDrawerController()
+    fun openDrawer() = controller.openDrawer()
+    /** Set the bitmap before navigation, passing bitmap via navigation is
+    complex that is why doing this ...**/
+    fun select(destination: Destination) = controller.select(destination)
 
+}
 
 
 @Composable
 fun AppMainRoute(modifier: Modifier = Modifier) {
     val scope = rememberCoroutineScope()
     val navController = rememberNavController()
-    val viewModel = remember { MainViewModel() }
-    val navigator = remember { Navigator(navController) }
+    val viewModel = viewModel { MainViewModel() }
     var isNavRailMode by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
         navController.currentBackStack.collect { entries ->
@@ -100,7 +114,7 @@ fun AppMainRoute(modifier: Modifier = Modifier) {
         controller = viewModel.controller,
         onEvent = { event ->
             if (event is NavigationEvent.Selected) {
-                scope.launch { navigator.navigate(event.destination) }
+                scope.launch { CustomNavigator.navigateAsTopMostDestination(navController,event.destination.route) }
             }
             if (event is NavigationEvent.NavRailNavigationMode)
                 isNavRailMode = true
@@ -119,15 +133,15 @@ fun AppMainRoute(modifier: Modifier = Modifier) {
                     isNavRailMode = isNavRailMode,
                     openDrawerRequest = viewModel::openDrawer,
                     onAppInfoRequest = {
-                        navigator.navigate(NavDestination.AboutApp)
+                        CustomNavigator.navigate(navController,NavDestination.AboutApp)
                     },
                     onProcessRequest = {
                         MainViewModel.processImage = it
-                        navigator.navigate(NavDestination.Process)
+                        CustomNavigator.navigate(navController,NavDestination.Process)
 
                     },
                     onMediaPickRequest = {
-                        navigator.navigate(NavDestination.MediaPicker)
+                        CustomNavigator.navigate(navController,NavDestination.MediaPicker)
                     }
                 ),
 
@@ -163,16 +177,16 @@ fun AppMainRoute(modifier: Modifier = Modifier) {
 
 }
 
-fun testImageFromAssets(context: Context, assetName: String) {
-    try {
-        val inputStream = context.assets.open(assetName)
-        val bitmap = BitmapFactory.decodeStream(inputStream)
-        val result = Classifier(context).classifyOrThrow(bitmap)
-        Log.d("com.kzcse.tfliteconcept.data.Classifier", "Result: $result")
-    } catch (e: Exception) {
-        Log.e(
-            "com.kzcse.tfliteconcept.data.Classifier",
-            "Error loading image from assets: ${e.stackTraceToString()}"
-        )
-    }
-}
+//fun testImageFromAssets(context: Context, assetName: String) {
+//    try {
+//        val inputStream = context.assets.open(assetName)
+//        val bitmap = BitmapFactory.decodeStream(inputStream)
+//        val result = Classifier(context).classifyOrThrow(bitmap)
+//        Log.d("com.kzcse.tfliteconcept.data.Classifier", "Result: $result")
+//    } catch (e: Exception) {
+//        Log.e(
+//            "com.kzcse.tfliteconcept.data.Classifier",
+//            "Error loading image from assets: ${e.stackTraceToString()}"
+//        )
+//    }
+//}

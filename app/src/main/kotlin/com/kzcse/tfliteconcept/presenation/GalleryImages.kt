@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.provider.MediaStore
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -41,10 +40,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -52,35 +48,40 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kzcse.tfliteconcept.R
 import com.kzcse.tfliteconcept.domain.Constants
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 
-val galleryImages = listOf(
-    R.drawable.chondona_01,
-    R.drawable.chondona_02,
-    R.drawable.gurta_01,
-    R.drawable.gurta_02,
-    R.drawable.healthy_02,
-    R.drawable.healthy_02,
-    R.drawable.jhatka_01,
-    R.drawable.jhatka_02,
-    R.drawable.other_01,
-    R.drawable.other_02
-)
+class  GalleryScreenViewModel: ViewModel() {
+    private val _pickedOrSelectedImage= MutableStateFlow<Bitmap?>(null)
+    val pickedOrSelectedImage=_pickedOrSelectedImage.asStateFlow()
+    fun onImagePickedOrSelected(bitmap: Bitmap){
+        _pickedOrSelectedImage.update { bitmap }
+    }
+    fun clearSelectedImage(){
+        _pickedOrSelectedImage.update { null }
+    }
+
+}
 
 @Composable
 fun GalleryScreen(
     navigationIcon: @Composable () -> Unit,
-    onImageClick: (Bitmap) -> Unit,
-    onNavigation: () -> Unit,
+    onProcessRequest: (Bitmap) -> Unit,
 ) {
-    var cropImage by remember { mutableStateOf<Bitmap?>(null) }
+    val viewModel= viewModel{GalleryScreenViewModel()}
+    val cropImage=viewModel.pickedOrSelectedImage.collectAsState().value
     if(cropImage!=null){
         ImageCropScreen(
-            imageBitmap = cropImage!!.asImageBitmap(),
+            imageBitmap = cropImage.asImageBitmap(),
             onCropped = {
-                onImageClick(it)
-            }
+                onProcessRequest(it)
+            },
+            onBack = viewModel::clearSelectedImage
         )
     }
     else{
@@ -88,12 +89,11 @@ fun GalleryScreen(
             modifier = Modifier,
             onImageClick={bitmap->
                 if (!Constants.isImageSizeMatched(bitmap)){
-                    cropImage=bitmap
+                  viewModel.onImagePickedOrSelected(bitmap)
                 }
 
             },
             navigationIcon=navigationIcon,
-            onNavigation = onNavigation
         )
 
     }
@@ -107,7 +107,6 @@ fun GalleryScreen(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit,
     onImageClick: (Bitmap) -> Unit,
-    onNavigation: () -> Unit,
 ) {
     val context = LocalContext.current
     val galleryLauncher = rememberLauncherForActivityResult(
@@ -187,14 +186,29 @@ fun GalleryScreen(
             )
             Spacer(Modifier.height(8.dp))
             ImageGallery(
-                images = galleryImages,
+                images = SavedImageProvider.getImages(),
                 onImageClick = onImageClick
             )
         }
     }
 
 }
-
+object SavedImageProvider{
+    fun getImages():List<Int>{
+     return   listOf(
+            R.drawable.chondona_01,
+            R.drawable.chondona_02,
+            R.drawable.gurta_01,
+            R.drawable.gurta_02,
+            R.drawable.healthy_02,
+            R.drawable.healthy_02,
+            R.drawable.jhatka_01,
+            R.drawable.jhatka_02,
+            R.drawable.other_01,
+            R.drawable.other_02
+        )
+    }
+}
 @Composable
 fun ImageGallery(
     images: List<Int>,
