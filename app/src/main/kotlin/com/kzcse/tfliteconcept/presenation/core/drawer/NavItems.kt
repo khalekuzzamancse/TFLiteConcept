@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept.ui.drawer
+package com.kzcse.tfliteconcept.presenation.core.drawer
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
@@ -35,6 +35,9 @@ sealed interface NavDestination : Destination {
     }
     data object MediaPicker : NavDestination {
         override val route = "MediaPicker"
+    }
+    data object Crop : NavDestination {
+        override val route = "Crop"
     }
 
     data object AboutUs : NavDestination {

@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept.ui.drawer
+package com.kzcse.tfliteconcept.presenation.core.drawer
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row

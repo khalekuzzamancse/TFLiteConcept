@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept.ui.u
+package com.kzcse.tfliteconcept.presenation
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState

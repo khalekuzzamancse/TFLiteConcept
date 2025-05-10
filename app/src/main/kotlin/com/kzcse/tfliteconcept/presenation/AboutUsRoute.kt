@@ -1,6 +1,6 @@
 @file:Suppress("SpellCheckingInspection")
 
-package com.kzcse.tfliteconcept.ui.u
+package com.kzcse.tfliteconcept.presenation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

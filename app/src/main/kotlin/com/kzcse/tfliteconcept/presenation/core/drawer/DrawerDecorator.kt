@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.kzcse.tfliteconcept.ui.drawer
+package com.kzcse.tfliteconcept.presenation.core.drawer
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility

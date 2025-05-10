@@ -1,7 +1,9 @@
-package com.kzcse.tfliteconcept
+package com.kzcse.tfliteconcept.data
 
 import android.content.Context
 import android.graphics.Bitmap
+import com.kzcse.tfliteconcept.domain.Constants
+import com.kzcse.tfliteconcept.domain.CustomException
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
@@ -18,8 +20,16 @@ class Classifier(context: Context) {
         interpreter = Interpreter(modelFile)
     }
 
-    fun classifyImage(bitmap: Bitmap): String?{
-        val inputBuffer = convertBitmapToByteBuffer(bitmap)
+    fun classifyOrThrow(bitmap: Bitmap): String?{
+        val width=bitmap.width
+        val height=bitmap.height
+        if (!Constants.isImageSizeMatched(bitmap)){
+            throw  CustomException(
+                message = "Image size should be ${Constants.EXPECTED_IMAGE_WIDTH}*${Constants.EXPECTED_IMAGE_HEIGHT}",
+                debugMessage = "src=Classifier::classifyOrThrow, provided image size($width,$height)")
+        }
+        val mutableBitmap = convertToMutableBitmap(bitmap)
+        val inputBuffer = convertBitmapToByteBuffer(mutableBitmap)
 
         // Correct TensorBuffer creation with DataType.FLOAT32
         val outputBuffer = TensorBuffer.createFixedSize(intArrayOf(1, 5), DataType.FLOAT32)
@@ -38,6 +48,14 @@ class Classifier(context: Context) {
             null
         }
     }
+
+    /**
+     * convert the bitmap to a software-configured bitmap
+     */
+    fun convertToMutableBitmap(bitmap: Bitmap): Bitmap {
+        return bitmap.copy(Bitmap.Config.ARGB_8888, true)
+    }
+
 
     private fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
         val buffer = ByteBuffer.allocateDirect(4 * 224 * 224 * 3)
@@ -60,3 +78,4 @@ class Classifier(context: Context) {
         return buffer
     }
 }
+

@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept.ui.u
+package com.kzcse.tfliteconcept.presenation
 
 import android.graphics.Bitmap
 import androidx.compose.material.icons.Icons
@@ -12,7 +12,7 @@ import androidx.navigation.NavGraph
 import androidx.navigation.compose.composable
 import androidx.navigation.createGraph
 
-import com.kzcse.tfliteconcept.ui.drawer.NavDestination
+import com.kzcse.tfliteconcept.presenation.core.drawer.NavDestination
 
 
 fun NavController.createNavGraph(
@@ -44,7 +44,7 @@ fun NavController.createNavGraph(
                     )
                 },
                 onImageClick = onProcessRequest,
-                onNavigation = onMediaPickRequest
+                onNavigation = onMediaPickRequest,
             )
 
 
@@ -104,6 +104,18 @@ fun NavController.createNavGraph(
                     bitmap?.let(onProcessRequest)
                 }
             )
+
+        }
+
+        composable(
+            route = NavDestination.Crop.route
+        ) {
+//            ImageCropScreen(
+//                bitmap = ,
+//                onImageCropped = {
+//                    man
+//                }
+//            )
 
         }
 

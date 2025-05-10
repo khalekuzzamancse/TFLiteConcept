@@ -1,8 +1,8 @@
-package com.kzcse.tfliteconcept.ui.u
+package com.kzcse.tfliteconcept.presenation
 
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.kzcse.tfliteconcept.ui.drawer.Destination
+import com.kzcse.tfliteconcept.presenation.core.drawer.Destination
 
 class Navigator(
     private val navController: NavHostController,

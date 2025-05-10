@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept
+package com.kzcse.tfliteconcept.presenation.core
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

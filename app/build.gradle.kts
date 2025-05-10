@@ -57,6 +57,9 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     //noinspection UseTomlInstead
+    implementation("com.github.SmartToolFactory:Compose-Cropper:0.5.0")
+//    implementation("com.github.Tanish-Ranjan:crop-kit:1.0.0")
+    //noinspection UseTomlInstead
     implementation("androidx.navigation:navigation-compose:2.9.0-alpha08")
     //noinspection UseTomlInstead
     implementation("androidx.compose.material:material-icons-extended:1.7.8")

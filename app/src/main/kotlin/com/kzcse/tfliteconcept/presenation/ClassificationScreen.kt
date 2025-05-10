@@ -1,15 +1,33 @@
-package com.kzcse.tfliteconcept.ui.u
+package com.kzcse.tfliteconcept.presenation
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -18,20 +36,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kzcse.tfliteconcept.Classifier
+import com.kzcse.tfliteconcept.data.Classifier
+import com.kzcse.tfliteconcept.domain.Logger
+import com.kzcse.tfliteconcept.domain.CustomException
+import com.kzcse.tfliteconcept.presenation.core.GlobalMessenger
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import androidx.compose.animation.core.*
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.*
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -39,6 +49,7 @@ fun ClassificationScreen(
     bitmap: Bitmap,
     navigationIcon: @Composable () -> Unit
 ) {
+    val tag="ClassificationScreen";
     val context = LocalContext.current
     var result by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(true) }
@@ -46,11 +57,14 @@ fun ClassificationScreen(
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
-            delay(5000) // Simulate processing delay for better UX
+            delay(2000) // Simulate processing delay for better UX
             result = try {
-                Classifier(context).classifyImage(bitmap)
+                Classifier(context).classifyOrThrow(bitmap)
+            } catch (e:Throwable){
+                if(e is CustomException)
+                    GlobalMessenger.updateMessage(e)
 
-            } catch (e:Exception){
+                Logger.error(tag,e)
                 null
             } finally {
                 isLoading = false
@@ -157,44 +171,4 @@ fun DisplayResult(result: String?, isLoading: Boolean) {
             modifier = Modifier.fillMaxWidth().padding(16.dp)
         )
     }
-}
-
-@Composable
-fun ScannerProgressBar(
-    modifier: Modifier = Modifier,
-    barColor: Color = MaterialTheme.colorScheme.primary,
-    scanSpeed: Int = 1500
-) {
-    val infiniteTransition = rememberInfiniteTransition()
-    val animatedOffset by infiniteTransition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(scanSpeed, easing = LinearEasing),
-            repeatMode = RepeatMode.Restart
-        )
-    )
-
-    Canvas(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(200.dp)
-    ) {
-        val canvasHeight = size.height
-        val progressY = canvasHeight * animatedOffset
-
-        drawLine(
-            color = barColor,
-            start = Offset(0f, progressY),
-            end = Offset(size.width, progressY),
-            strokeWidth = 8f,
-            cap = StrokeCap.Round
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewScannerProgressBar() {
-
 }

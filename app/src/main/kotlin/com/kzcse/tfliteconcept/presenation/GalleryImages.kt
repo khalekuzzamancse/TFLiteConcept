@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept.ui.u
+package com.kzcse.tfliteconcept.presenation
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -27,7 +27,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
@@ -41,6 +40,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -49,6 +52,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kzcse.tfliteconcept.R
+import com.kzcse.tfliteconcept.domain.Constants
 
 val galleryImages = listOf(
     R.drawable.chondona_01,
@@ -66,6 +70,42 @@ val galleryImages = listOf(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun GalleryScreen(
+    navigationIcon: @Composable () -> Unit,
+    onImageClick: (Bitmap) -> Unit,
+    onNavigation: () -> Unit,
+) {
+    var cropImage by remember { mutableStateOf<Bitmap?>(null) }
+
+    if(cropImage!=null){
+        ImageCropScreen(
+            imageBitmap = cropImage!!.asImageBitmap(),
+            onCropped = {
+                onImageClick(it)
+            }
+        )
+    }
+    else{
+        GalleryScreen(
+            modifier = Modifier,
+            onImageClick={bitmap->
+                if (!Constants.isImageSizeMatched(bitmap)){
+                    cropImage=bitmap
+                }
+
+            },
+            navigationIcon=navigationIcon,
+            onNavigation = {}
+        )
+
+    }
+
+
+}
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@Composable
+fun GalleryScreen(
+    modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit,
     onImageClick: (Bitmap) -> Unit,
     onNavigation: () -> Unit,
@@ -94,7 +134,6 @@ fun GalleryScreen(
             onImageClick(bitmap)
         }
     }
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -153,8 +192,8 @@ fun GalleryScreen(
             )
         }
     }
-}
 
+}
 
 @Composable
 fun ImageGallery(
@@ -206,7 +245,10 @@ fun BottomSheetItem(
         Row (
             verticalAlignment = Alignment.CenterVertically,
             modifier=Modifier
-                .background(color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(4.dp))
+                .background(
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = RoundedCornerShape(4.dp)
+                )
                 .padding(8.dp)
         ) {
             Icon(

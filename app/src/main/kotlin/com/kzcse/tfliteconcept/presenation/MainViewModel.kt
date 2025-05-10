@@ -1,8 +1,8 @@
-package com.kzcse.tfliteconcept.ui.u
+package com.kzcse.tfliteconcept.presenation
 
 import android.graphics.Bitmap
-import com.kzcse.tfliteconcept.ui.drawer.Destination
-import com.kzcse.tfliteconcept.ui.drawer.NavigationDrawerController
+import com.kzcse.tfliteconcept.presenation.core.drawer.Destination
+import com.kzcse.tfliteconcept.presenation.core.drawer.NavigationDrawerController
 
 class MainViewModel  {
     companion object{

@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept
+package com.kzcse.tfliteconcept.presenation
 
 import android.content.Context
 import android.graphics.BitmapFactory
@@ -11,9 +11,12 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -24,34 +27,55 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.kzcse.tfliteconcept.ui.drawer.Destination
-import com.kzcse.tfliteconcept.ui.drawer.DrawerHeader
-import com.kzcse.tfliteconcept.ui.drawer.DrawerToNavRailDecorator
-import com.kzcse.tfliteconcept.ui.drawer.NavDestination
-import com.kzcse.tfliteconcept.ui.drawer.NavDestinationBuilder
-import com.kzcse.tfliteconcept.ui.drawer.NavigationEvent
-import com.kzcse.tfliteconcept.ui.u.MainViewModel
-import com.kzcse.tfliteconcept.ui.u.Navigator
-import com.kzcse.tfliteconcept.ui.u.createNavGraph
+import com.kzcse.tfliteconcept.data.Classifier
+import com.kzcse.tfliteconcept.presenation.core.AppTheme
+import com.kzcse.tfliteconcept.presenation.core.GlobalMessenger
+import com.kzcse.tfliteconcept.presenation.core.drawer.Destination
+import com.kzcse.tfliteconcept.presenation.core.drawer.DrawerHeader
+import com.kzcse.tfliteconcept.presenation.core.drawer.DrawerToNavRailDecorator
+import com.kzcse.tfliteconcept.presenation.core.drawer.NavDestination
+import com.kzcse.tfliteconcept.presenation.core.drawer.NavDestinationBuilder
+import com.kzcse.tfliteconcept.presenation.core.drawer.NavigationEvent
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AppTheme {
+            val hostState = remember { SnackbarHostState() }
+            LaunchedEffect(Unit) {
+                GlobalMessenger.messageToUI.collect { msg ->
+                    if (msg != null) {
+                        hostState.showSnackbar(msg)
+                    }
 
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    AppMainRoute(modifier = Modifier.padding(innerPadding))
+                }
+
+            }
+            AppTheme {
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    snackbarHost = {
+                        SnackbarHost(hostState = hostState)
+                    }) { innerPadding ->
+                    Column(Modifier.padding(innerPadding))
+                    {
+                        AppMainRoute()
+
+                    }
+
                 }
             }
         }
     }
 }
 
+
+
+
 @Composable
 fun AppMainRoute(modifier: Modifier = Modifier) {
-    val scope= rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
     val navController = rememberNavController()
     val viewModel = remember { MainViewModel() }
     val navigator = remember { Navigator(navController) }
@@ -71,7 +95,7 @@ fun AppMainRoute(modifier: Modifier = Modifier) {
     }
 
     DrawerToNavRailDecorator(
-        modifier =modifier,
+        modifier = modifier,
         groups = NavDestinationBuilder.navGroups,
         controller = viewModel.controller,
         onEvent = { event ->
@@ -95,10 +119,10 @@ fun AppMainRoute(modifier: Modifier = Modifier) {
                     isNavRailMode = isNavRailMode,
                     openDrawerRequest = viewModel::openDrawer,
                     onAppInfoRequest = {
-                         navigator.navigate(NavDestination.AboutApp)
+                        navigator.navigate(NavDestination.AboutApp)
                     },
                     onProcessRequest = {
-                        MainViewModel.processImage=it
+                        MainViewModel.processImage = it
                         navigator.navigate(NavDestination.Process)
 
                     },
@@ -143,9 +167,12 @@ fun testImageFromAssets(context: Context, assetName: String) {
     try {
         val inputStream = context.assets.open(assetName)
         val bitmap = BitmapFactory.decodeStream(inputStream)
-        val result = Classifier(context).classifyImage(bitmap)
-        Log.d("com.kzcse.tfliteconcept.Classifier", "Result: $result")
-    } catch (e:Exception) {
-        Log.e("com.kzcse.tfliteconcept.Classifier", "Error loading image from assets: ${e.stackTraceToString()}")
+        val result = Classifier(context).classifyOrThrow(bitmap)
+        Log.d("com.kzcse.tfliteconcept.data.Classifier", "Result: $result")
+    } catch (e: Exception) {
+        Log.e(
+            "com.kzcse.tfliteconcept.data.Classifier",
+            "Error loading image from assets: ${e.stackTraceToString()}"
+        )
     }
 }
