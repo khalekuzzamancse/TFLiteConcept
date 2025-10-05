@@ -1,6 +1,6 @@
-package com.kzcse.tfliteconcept.presenation.core
+package com.kzcse.tfliteconcept.feature._core.presentation
 
-import com.kzcse.tfliteconcept.domain.CustomException
+import com.kzcse.tfliteconcept.feature._core.logic.CustomException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

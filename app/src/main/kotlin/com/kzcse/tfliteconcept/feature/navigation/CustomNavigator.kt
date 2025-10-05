@@ -1,8 +1,8 @@
-package com.kzcse.tfliteconcept.presenation
+package com.kzcse.tfliteconcept.feature.navigation
 
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
-import com.kzcse.tfliteconcept.presenation.core.drawer.Destination
+import com.kzcse.tfliteconcept.feature._core.presentation.Destination
 
 object CustomNavigator{
 

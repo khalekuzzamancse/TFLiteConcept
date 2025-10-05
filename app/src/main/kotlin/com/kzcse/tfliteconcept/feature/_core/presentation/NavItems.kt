@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept.presenation.core.drawer
+package com.kzcse.tfliteconcept.feature._core.presentation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
@@ -14,7 +14,8 @@ import androidx.compose.material.icons.outlined.PermDeviceInformation
 
 //TODO
 
-sealed interface NavDestination : Destination {
+sealed interface NavDestination {
+    val route: String
     data object Home : NavDestination {
         override val route = "Home"
     }
@@ -49,7 +50,7 @@ object NavDestinationBuilder {
 
     val navGroups = listOf(group1(), group2(), group3(), group6())
 
-    val allDestinations: List<Destination> = navGroups.flatMap { group ->
+    val allDestinations: List<String> = navGroups.flatMap { group ->
         group.items.map { it.destination }
     }
 
@@ -59,7 +60,7 @@ object NavDestinationBuilder {
                 label = "Home",
                 unFocusedIcon = Icons.Outlined.Home,
                 focusedIcon = Icons.Filled.Home,
-                destination = NavDestination.Home
+                destination = NavDestination.Home.route
             ),
         )
     )
@@ -70,13 +71,13 @@ object NavDestinationBuilder {
                 label = "User Manual",
                 unFocusedIcon = Icons.AutoMirrored.Outlined.MenuBook,
                 focusedIcon =Icons.AutoMirrored.Filled.MenuBook,
-                destination = NavDestination.UseManual
+                destination = NavDestination.UseManual.route
             ),
             NavigationItem(
                 label = "About App",
                 unFocusedIcon = Icons.Outlined.PermDeviceInformation,
                 focusedIcon = Icons.Filled.PermDeviceInformation,
-                destination = NavDestination.AboutApp
+                destination = NavDestination.AboutApp.route
             ),
         )
     )
@@ -87,7 +88,7 @@ object NavDestinationBuilder {
                 label = "Recognize",
                 unFocusedIcon = Icons.Outlined.Fingerprint,
                 focusedIcon = Icons.Filled.Fingerprint,
-                destination = NavDestination.Recognize
+                destination = NavDestination.Recognize.route
             ),
 
         )
@@ -100,7 +101,7 @@ object NavDestinationBuilder {
                 label = "About Us",
                 unFocusedIcon = Icons.Outlined.Info,
                 focusedIcon = Icons.Filled.Info,
-                destination = NavDestination.AboutUs
+                destination = NavDestination.AboutUs.route
             ),
         )
     )

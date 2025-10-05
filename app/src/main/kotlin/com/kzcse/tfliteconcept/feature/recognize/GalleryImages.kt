@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept.presenation
+package com.kzcse.tfliteconcept.feature.recognize
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -51,7 +51,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kzcse.tfliteconcept.R
-import com.kzcse.tfliteconcept.domain.Constants
+import com.kzcse.tfliteconcept.feature._core.logic.Constants
+import com.kzcse.tfliteconcept.feature._core.logic.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -68,6 +69,9 @@ class  GalleryScreenViewModel: ViewModel() {
 
 }
 
+/**
+ * - Not show crop option for dataset image since they already match the size
+ */
 @Composable
 fun GalleryScreen(
     navigationIcon: @Composable () -> Unit,
@@ -80,6 +84,7 @@ fun GalleryScreen(
             imageBitmap = cropImage.asImageBitmap(),
             onCropped = {
                 onProcessRequest(it)
+                viewModel.clearSelectedImage()
             },
             onBack = viewModel::clearSelectedImage
         )
@@ -87,10 +92,20 @@ fun GalleryScreen(
     else{
         GalleryScreen(
             modifier = Modifier,
-            onImageClick={bitmap->
-                if (!Constants.isImageSizeMatched(bitmap)){
-                  viewModel.onImagePickedOrSelected(bitmap)
-                }
+            onImageClick={bitmap,fromDataSet->
+                //TODO: Fix bug, why image size is increasing for dataset image even we placed 224*224
+                    if (!Constants.isImageSizeMatched(bitmap)){
+                        viewModel.onImagePickedOrSelected(bitmap)
+                    }
+//                if(fromDataSet){
+//                    Logger.on(tag = "GalleryScreen", "${bitmap.width},${bitmap.height}")
+//                    onProcessRequest(bitmap)
+//                }
+//               else{
+//                    if (!Constants.isImageSizeMatched(bitmap)){
+//                        viewModel.onImagePickedOrSelected(bitmap)
+//                    }
+//               }
 
             },
             navigationIcon=navigationIcon,
@@ -106,7 +121,7 @@ fun GalleryScreen(
 fun GalleryScreen(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit,
-    onImageClick: (Bitmap) -> Unit,
+    onImageClick: (Bitmap,fromDataSet:Boolean) -> Unit,
 ) {
     val context = LocalContext.current
     val galleryLauncher = rememberLauncherForActivityResult(
@@ -121,7 +136,7 @@ fun GalleryScreen(
             }
         }
         if (bitmap != null) {
-            onImageClick(bitmap)
+            onImageClick(bitmap,false)
         }
     }
 
@@ -129,7 +144,7 @@ fun GalleryScreen(
         contract = ActivityResultContracts.TakePicturePreview()
     ) { bitmap ->
         if (bitmap != null) {
-            onImageClick(bitmap)
+            onImageClick(bitmap,false)
         }
     }
     Scaffold(
@@ -212,7 +227,7 @@ object SavedImageProvider{
 @Composable
 fun ImageGallery(
     images: List<Int>,
-    onImageClick: (Bitmap) -> Unit
+    onImageClick: (Bitmap,fromDataSet: Boolean) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -220,7 +235,9 @@ fun ImageGallery(
         modifier = Modifier.fillMaxSize()
     ) {
         items(images) { imageRes ->
-            ImageItem(imageRes = imageRes, onImageClick)
+            ImageItem(imageRes = imageRes){
+                onImageClick(it,true)
+            }
         }
     }
 }

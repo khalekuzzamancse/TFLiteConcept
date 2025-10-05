@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept.presenation
+package com.kzcse.tfliteconcept.feature.recognize
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
@@ -24,11 +24,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -39,10 +35,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kzcse.tfliteconcept.data.Classifier
-import com.kzcse.tfliteconcept.domain.Logger
-import com.kzcse.tfliteconcept.domain.CustomException
-import com.kzcse.tfliteconcept.presenation.core.GlobalMessenger
+import com.kzcse.tfliteconcept.feature.recognize.Classifier
+import com.kzcse.tfliteconcept.feature._core.logic.Logger
+import com.kzcse.tfliteconcept.feature._core.logic.CustomException
+import com.kzcse.tfliteconcept.feature._core.presentation.GlobalMessenger
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

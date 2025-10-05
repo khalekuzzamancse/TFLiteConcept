@@ -2,16 +2,17 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
     namespace = "com.kzcse.tfliteconcept"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.kzcse.tfliteconcept"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -68,5 +69,5 @@ dependencies {
     implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.0")
     //noinspection UseTomlInstead// For vision tasks
     implementation("org.tensorflow:tensorflow-lite-gpu:2.9.0")         // GPU acceleration (optional for performance)
-
+    implementation(libs.bundles.navigation3)
 }

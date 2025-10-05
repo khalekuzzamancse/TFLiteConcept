@@ -1,5 +1,5 @@
 [versions]
-agp = "8.8.0"
+agp = "8.13.0"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -7,11 +7,15 @@ junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.8.7"
 activityCompose = "1.8.0"
-composeBom = "2024.04.01"
+composeBom = "2024.09.00"
 tensorflowLiteGpu = "2.9.0"
 tensorflowLiteGpuDelegatePlugin = "0.4.0"
 tensorflowLiteTaskVision = "0.4.0"
 litert = "1.2.0"
+kotlinSerialization = "2.2.10"
+kotlinxSerializationCore = "1.8.1"
+nav3Core = "1.0.0-alpha08"
+nav3Lifecycle = "1.0.0-alpha04"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,9 +37,17 @@ tensorflow-lite-gpu = { module = "org.tensorflow:tensorflow-lite-gpu", version.r
 tensorflow-lite-gpu-delegate-plugin = { module = "org.tensorflow:tensorflow-lite-gpu-delegate-plugin", version.ref = "tensorflowLiteGpuDelegatePlugin" }
 tensorflow-lite-task-vision = { module = "org.tensorflow:tensorflow-lite-task-vision", version.ref = "tensorflowLiteTaskVision" }
 litert = { group = "com.google.ai.edge.litert", name = "litert", version.ref = "litert" }
-
+#Navigation 3
+nav3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3Core" }
+nav3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3Core" }
+androidx-lifecycle-viewmodel-nav3 = { module = "androidx.lifecycle:lifecycle-viewmodel-navigation3", version.ref = "nav3Lifecycle" }
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
+##
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+[bundles]
+navigation3=["nav3-runtime","nav3-ui","androidx-lifecycle-viewmodel-nav3"]
 

@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept.domain
+package com.kzcse.tfliteconcept.feature._core.logic
 
 import android.util.Log
 

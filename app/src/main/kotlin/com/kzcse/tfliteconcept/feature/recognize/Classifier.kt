@@ -1,13 +1,13 @@
-package com.kzcse.tfliteconcept.data
+package com.kzcse.tfliteconcept.feature.recognize
 
 import android.content.Context
 import android.graphics.Bitmap
-import com.kzcse.tfliteconcept.domain.Constants
-import com.kzcse.tfliteconcept.domain.CustomException
+import com.kzcse.tfliteconcept.feature._core.logic.Constants
+import com.kzcse.tfliteconcept.feature._core.logic.CustomException
+import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.common.FileUtil
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import org.tensorflow.lite.DataType
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -24,9 +24,10 @@ class Classifier(context: Context) {
         val width=bitmap.width
         val height=bitmap.height
         if (!Constants.isImageSizeMatched(bitmap)){
-            throw  CustomException(
+            throw CustomException(
                 message = "Image size should be ${Constants.EXPECTED_IMAGE_WIDTH}*${Constants.EXPECTED_IMAGE_HEIGHT}",
-                debugMessage = "src=Classifier::classifyOrThrow, provided image size($width,$height)")
+                debugMessage = "src=Classifier::classifyOrThrow, provided image size($width,$height)"
+            )
         }
         val mutableBitmap = convertToMutableBitmap(bitmap)
         val inputBuffer = convertBitmapToByteBuffer(mutableBitmap)
@@ -78,4 +79,3 @@ class Classifier(context: Context) {
         return buffer
     }
 }
-

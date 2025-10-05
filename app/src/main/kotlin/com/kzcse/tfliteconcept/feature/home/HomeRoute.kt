@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept.presenation
+package com.kzcse.tfliteconcept.feature.home
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize

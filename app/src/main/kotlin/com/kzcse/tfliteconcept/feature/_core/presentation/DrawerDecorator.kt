@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.kzcse.tfliteconcept.presenation.core.drawer
+package com.kzcse.tfliteconcept.feature._core.presentation
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -79,12 +79,12 @@ define the necessary thing here
  * * Needed to refactor for coroutine scope
  */
 class NavigationDrawerController {
-    private val _selected = MutableStateFlow<Destination?>(null)
+    private val _selected = MutableStateFlow<String?>(null)
     val selected = _selected.asStateFlow()
     private val _drawerState = MutableStateFlow(DrawerState(DrawerValue.Closed))
     internal val drawerState = _drawerState.asStateFlow()
 
-    fun select(destination: Destination) {
+    fun select(destination: String) {
         _selected.update { destination }
         closeDrawer()
     }
@@ -129,7 +129,7 @@ fun DrawerToNavRailDecorator(
 private fun DrawerToNavRailDecorator(
     modifier: Modifier = Modifier,
     groups: List<NavGroup>,
-    selected: Destination?,
+    selected: String?,
     itemVisibilityDelay: Long?,
     drawerState: DrawerState,
     topAppbar: @Composable () -> Unit = {},
@@ -187,7 +187,7 @@ private fun DrawerToNavRailDecorator(
 @Composable
 private fun _ModalDrawerDecorator(
     drawerState: DrawerState,
-    selected: Destination? = null,
+    selected: String? = null,
     itemVisibilityDelay: Long? = null,//if null then has no animation
     groups: List<NavGroup>,
     onEvent: (NavigationEvent) -> Unit,
@@ -234,7 +234,7 @@ class NavigationItem(
     val label: String,
     val focusedIcon: ImageVector,
     val unFocusedIcon: ImageVector = focusedIcon,
-    val destination: Destination = Destination.None,
+    val destination: String,
 )
 
 @Immutable
@@ -261,7 +261,7 @@ private fun _AnimateAbleDrawer(
     modifier: Modifier = Modifier,
     drawerState: DrawerState,
     groups: List<NavGroup>,
-    selected: Destination?,
+    selected: String?,
     itemVisibilityDelay: Long?,
     onEvent: (NavigationEvent) -> Unit,
     header: @Composable () -> Unit = {},
@@ -295,7 +295,7 @@ private fun _AnimateAbleDrawer(
 private fun _AnimationLessDrawer(
     modifier: Modifier = Modifier,
     groups: List<NavGroup>,
-    selected: Destination?,
+    selected: String?,
     itemVisibilityDelay: Long?,
     drawerState: DrawerState,
     onEvent: (NavigationEvent) -> Unit,
@@ -333,70 +333,14 @@ private fun _AnimationLessDrawer(
  * * Also it easy to add or remove new event easily,and propagate up to the client
  */
 sealed interface NavigationEvent {
-    data class Selected(val destination: Destination) : NavigationEvent
-    data class Hovered(val destination: Destination) : NavigationEvent
+    data class Selected(val destination: String) : NavigationEvent
+    data class Hovered(val destination: String) : NavigationEvent
     data object DrawerNavigationMode : NavigationEvent
     data object NavRailNavigationMode : NavigationEvent
 }
 
 
-@Composable
-private fun _NavigationSheet(
-    onEvent: (NavigationEvent) -> Unit,
-    groups: List<NavGroup>,
-    selected: Destination?,
-    itemVisibilityDelay: Long?,
-    header: (@Composable () -> Unit)? = null,
-) {
-    val lastIndex = groups.size - 1
-    Column(
-        modifier = Modifier
-            .width(IntrinsicSize.Max)
-            .fillMaxHeight()
-            .verticalScroll(rememberScrollState()),
-    ) {
-        if (header != null) {
-            header()
-        }
-        groups.forEachIndexed { groupNo, group ->
-            _Group(
-                group = group,
-                itemVisibilityDelay = itemVisibilityDelay,
-                selected = selected,
-                onEvent = onEvent,
-            )
-            if (groupNo != lastIndex) {
-                HorizontalDivider()
-            }
 
-        }
-
-
-    }
-}
-
-
-@Composable
-private fun _Group(
-    modifier: Modifier = Modifier,
-    onEvent: (NavigationEvent) -> Unit,
-    selected: Destination?,
-    itemVisibilityDelay: Long?,
-    group: NavGroup
-) {
-    group.items.forEach { item ->
-        _NavItem(
-            item = item,
-            isSelected = item.destination == selected,
-            visibilityDelay = itemVisibilityDelay,
-            onClick = {
-                onEvent(NavigationEvent.Selected(item.destination))
-            }
-        )
-    }
-
-
-}
 // TODO("Drawer Item section  -- Drawer Item section -- Drawer Item section -Drawer Item section")
 // TODO("Drawer Item section  -- Drawer Item section -- Drawer Item section -Drawer Item section")
 // TODO("Drawer Item section  -- Drawer Item section -- Drawer Item section -Drawer Item section")
@@ -530,7 +474,7 @@ private fun _ModalDrawer(
 private fun NavRailLayout(
     modifier: Modifier = Modifier,
     groups: List<NavGroup>,
-    selected: Destination?,
+    selected: String?,
     itemVisibilityDelay: Long?,
     onEvent: (NavigationEvent) -> Unit,
     header: @Composable () -> Unit,
@@ -569,7 +513,7 @@ private fun NavRailLayout(
 private fun _NavRailSheet(
     modifier: Modifier = Modifier,
     groups: List<NavGroup>,
-    selected: Destination?,
+    selected: String?,
     itemVisibilityDelay: Long?,
     onEvent: (NavigationEvent) -> Unit,
     header: @Composable () -> Unit,
@@ -591,4 +535,61 @@ private fun _NavRailSheet(
             )
         }
     }
+}
+
+@Composable
+private fun _NavigationSheet(
+    onEvent: (NavigationEvent) -> Unit,
+    groups: List<NavGroup>,
+    selected: String?,
+    itemVisibilityDelay: Long?,
+    header: (@Composable () -> Unit)? = null,
+) {
+    val lastIndex = groups.size - 1
+    Column(
+        modifier = Modifier
+            .width(IntrinsicSize.Max)
+            .fillMaxHeight()
+            .verticalScroll(rememberScrollState()),
+    ) {
+        if (header != null) {
+            header()
+        }
+        groups.forEachIndexed { groupNo, group ->
+            _Group(
+                group = group,
+                itemVisibilityDelay = itemVisibilityDelay,
+                selected = selected,
+                onEvent = onEvent,
+            )
+            if (groupNo != lastIndex) {
+                HorizontalDivider()
+            }
+
+        }
+
+
+    }
+}
+
+@Composable
+private fun _Group(
+    modifier: Modifier = Modifier,
+    onEvent: (NavigationEvent) -> Unit,
+    selected: String?,
+    itemVisibilityDelay: Long?,
+    group: NavGroup
+) {
+    group.items.forEach { item ->
+        _NavItem(
+            item = item,
+            isSelected = item.destination.equals(selected),
+            visibilityDelay = itemVisibilityDelay,
+            onClick = {
+                onEvent(NavigationEvent.Selected(item.destination))
+            }
+        )
+    }
+
+
 }

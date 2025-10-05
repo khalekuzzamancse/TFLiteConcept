@@ -1,4 +1,4 @@
-package com.kzcse.tfliteconcept.presenation
+package com.kzcse.tfliteconcept.feature.recognize
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Box
