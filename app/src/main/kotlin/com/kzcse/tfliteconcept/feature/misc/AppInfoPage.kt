@@ -33,31 +33,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kzcse.tfliteconcept.R
+import com.kzcse.tfliteconcept.feature._core.presentation.ScreenStrategy
 
-@Preview
-@Composable
-private fun AppInfoPagePreview() {
-    AppInfoPage{}
-    
-}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppInfoPage(navigationIcon: @Composable () -> Unit) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {},
-                navigationIcon = {
-                    navigationIcon()
-                },
-                modifier = Modifier.height(30.dp)
-            )
+fun AppInfoPage(bottomBar: @Composable () -> Unit,fab: @Composable () -> Unit) {
+    ScreenStrategy(
+       bottomBar=bottomBar,
+        fab=fab,
+        title = {
+            Text("About App")
         }
     ) {
         Column(
-            modifier = Modifier
-                .padding(it)
-                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+            modifier = it
+                .padding(start = 8.dp, end = 8.dp)
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState()),

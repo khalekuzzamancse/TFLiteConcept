@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -17,9 +18,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,33 +30,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kzcse.tfliteconcept.R
+import com.kzcse.tfliteconcept.feature._core.presentation.ScreenStrategy
 
-@Preview
-@Composable
-private fun AboutPreview() {
-    AboutUsPage({})
-
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutUsPage(navigationIcon: @Composable () -> Unit) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title={},
-                navigationIcon = {
-                    navigationIcon()
-                },
-                modifier = Modifier.height(30.dp)
-            )
-
+fun AboutUsPage(bottomBar: @Composable () -> Unit,fab: @Composable () -> Unit) {
+    ScreenStrategy (
+        bottomBar =bottomBar,
+        fab=fab,
+        title = {
+            Text("About Us")
         }
     ) {
         Column(
-            modifier = Modifier
-                .padding(it)
-                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
+            modifier = it
+                .padding(start = 8.dp, end = 8.dp)
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState()),
@@ -133,8 +121,8 @@ private fun SupervisorSection() {
             color = MaterialTheme.colorScheme.secondary
         )
         DeptAndUniversity()
-
         Text(
+      modifier = Modifier.align(Alignment.Start),
             text = "B.Sc. (Engg.) & M.Sc. (Engg.) in CSE (JUST)",
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onBackground
@@ -172,12 +160,7 @@ private fun AIDeveloperSection() {
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
-//        Text(
-//            text = "Student",
-//            fontSize = 16.sp,
-//            color = MaterialTheme.colorScheme.secondary
-//        )
-//        DeptAndUniversity()
+
 
     }
 }
@@ -222,14 +205,14 @@ private fun DeveloperSection() {
 }
 
 @Composable
-fun DeptAndUniversity(modifier: Modifier = Modifier) {
-    Column {
+fun ColumnScope.DeptAndUniversity(modifier: Modifier = Modifier) {
         Text(
+            modifier=modifier.align(Alignment.Start) ,
             text = "Department of  CSE at Jashore University of Science and Technology (JUST)",
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onBackground
         )
-    }
+
 
 }
 

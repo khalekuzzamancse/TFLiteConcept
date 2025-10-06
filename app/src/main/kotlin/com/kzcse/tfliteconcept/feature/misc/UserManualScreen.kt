@@ -6,7 +6,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Camera
 import androidx.compose.material.icons.outlined.Crop
-import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.*
@@ -18,30 +17,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kzcse.tfliteconcept.feature._core.presentation.ScreenStrategy
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserManualScreen(
-    navigationIcon: @Composable () -> Unit
+    bottomBar: @Composable () -> Unit,
+    fab: @Composable () -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {},
-                navigationIcon = navigationIcon
-            )
+    ScreenStrategy(
+       bottomBar = bottomBar,
+        fab = fab,
+        title = {
+            ManualTitle()
         }
     ) {
         Column(
-            modifier = Modifier
-                .padding(it)
+            modifier =it
                 .padding(16.dp)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ManualTitle()
-            Spacer(modifier = Modifier.height(16.dp))
+
             InstructionStep(
                 stepNumber = 1,
                 title = "Pick an Image",
@@ -79,7 +77,7 @@ fun UserManualScreen(
 @Composable
 fun ManualTitle() {
     Text(
-        text = "How to Use the Hilsha Detector",
+        text = "Usage Guide",
         fontSize = 28.sp,
         fontWeight = FontWeight.Bold,
         color = MaterialTheme.colorScheme.primary,
@@ -128,17 +126,3 @@ fun InstructionStep(
     }
 }
 
-@Composable
-private fun CallToActionButton(
-    onClick: () -> Unit
-) {
-    Button(
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-        modifier = Modifier.padding(top = 16.dp)
-    ) {
-        Icon(Icons.Outlined.Home, contentDescription = "Home")
-        Spacer(Modifier.width(4.dp))
-        Text(text = "Back to Home", color = MaterialTheme.colorScheme.onPrimary)
-    }
-}

@@ -28,39 +28,41 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kzcse.tfliteconcept.feature._core.presentation.ScreenStrategy
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeRoute(
     onAppInfoRequest: () -> Unit,
-    navigationIcon: @Composable () -> Unit
+    bottomBar: @Composable () -> Unit,
+    fab: @Composable () -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {},
-                navigationIcon = navigationIcon
-            )
+
+
+        ScreenStrategy (
+            bottomBar=bottomBar,
+            fab=fab
+        ){
+            Column(
+                modifier = it
+                    .fillMaxSize()
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                HomeTitle()
+                Spacer(modifier = Modifier.height(16.dp))
+                HomeIntroduction()
+                Spacer(modifier = Modifier.height(24.dp))
+                FeatureList() // Modified Feature Section
+                Spacer(modifier = Modifier.height(24.dp))
+                CallToActionButton(
+                    onClick = onAppInfoRequest
+                )
+            }
         }
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .fillMaxSize()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            HomeTitle()
-            Spacer(modifier = Modifier.height(16.dp))
-            HomeIntroduction()
-            Spacer(modifier = Modifier.height(24.dp))
-            FeatureList() // Modified Feature Section
-            Spacer(modifier = Modifier.height(24.dp))
-            CallToActionButton(
-                onClick = onAppInfoRequest
-            )
-        }
-    }
+
+
 }
 
 @Composable

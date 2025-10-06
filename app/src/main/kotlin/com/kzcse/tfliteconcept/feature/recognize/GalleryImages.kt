@@ -52,7 +52,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.kzcse.tfliteconcept.R
 import com.kzcse.tfliteconcept.feature._core.logic.Constants
-import com.kzcse.tfliteconcept.feature._core.logic.Logger
+import com.kzcse.tfliteconcept.feature._core.presentation.ScreenStrategy
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -69,12 +69,27 @@ class  GalleryScreenViewModel: ViewModel() {
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GalleryScreen(
+    bottomBar: @Composable () -> Unit,
+    onProcessRequest: (Bitmap) -> Unit,
+) {
+
+    ScreenStrategy(
+        bottomBar = bottomBar
+    ) {
+        _GalleryScreen(
+            onProcessRequest=onProcessRequest
+        )
+    }
+
+}
 /**
  * - Not show crop option for dataset image since they already match the size
  */
 @Composable
-fun GalleryScreen(
-    navigationIcon: @Composable () -> Unit,
+fun _GalleryScreen(
     onProcessRequest: (Bitmap) -> Unit,
 ) {
     val viewModel= viewModel{GalleryScreenViewModel()}
@@ -108,7 +123,7 @@ fun GalleryScreen(
 //               }
 
             },
-            navigationIcon=navigationIcon,
+            navigationIcon={},
         )
 
     }

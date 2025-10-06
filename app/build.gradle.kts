@@ -50,33 +50,9 @@ android {
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.bundles.compose)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.ui.graphics)
-    implementation(libs.androidx.ui.tooling.preview)
-    implementation(libs.androidx.material3)
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    //noinspection UseTomlInstead
-    implementation("com.github.SmartToolFactory:Compose-Cropper:0.5.0")
-//    implementation("com.github.Tanish-Ranjan:crop-kit:1.0.0")
-    //noinspection UseTomlInstead
-    implementation("androidx.navigation:navigation-compose:2.9.0-alpha08")
-    //noinspection UseTomlInstead
-    implementation("androidx.compose.material:material-icons-extended:1.7.8")
-    //
-
-    //noinspection UseTomlInstead
-    implementation("dev.chrisbanes.material3:material3-window-size-class-multiplatform:0.3.1")
-    //noinspection UseTomlInstead
-    implementation("org.tensorflow:tensorflow-lite:2.9.0")
-    //noinspection UseTomlInstead// Core TensorFlow Lite
-    implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.0")
-    //noinspection UseTomlInstead// For vision tasks
-    implementation("org.tensorflow:tensorflow-lite-gpu:2.9.0")         // GPU acceleration (optional for performance)
+    implementation(libs.image.crop)
+    implementation(libs.bundles.tflite)
     implementation(libs.bundles.navigation3)
 }
