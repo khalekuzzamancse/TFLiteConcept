@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.kzcse.tfliteconcept"
+    namespace = "com.kzcse.guava_detector"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.kzcse.tfliteconcept"
+        applicationId = "com.kzcse.guava_detector"
         minSdk = 24
         targetSdk = 36
         versionCode = 1
