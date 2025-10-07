@@ -1,39 +1,37 @@
 @file:Suppress("NewApi")
 
-package com.kzcse.guava_detector.feature.navigation
+package com.kzcse.guava_detector.feature._navigation
+
+import android.R.attr.navigationIcon
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.rememberSavedStateNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
-import com.kzcse.guava_detector.core.ui.SpacerHorizontal
 import com.kzcse.guava_detector.core.ui.VoidComposable
 import com.kzcse.guava_detector.feature._core.presentation.BottomBar
-import com.kzcse.guava_detector.feature.home.HomeRoute
-import com.kzcse.guava_detector.feature.misc.AboutAppScreen
-import com.kzcse.guava_detector.feature.misc.AboutUsPage
-import com.kzcse.guava_detector.feature.misc.UserManualScreen
-import com.kzcse.guava_detector.feature.recognize.ClassificationScreen
-import com.kzcse.guava_detector.feature.recognize.GalleryScreen
-import  com.kzcse.guava_detector.R
+import com.kzcse.guava_detector.feature._core.presentation.BottomBarItem
+import com.kzcse.guava_detector.feature._core.presentation.NavRail
+import com.kzcse.guava_detector.feature.info.HomeRoute
+import com.kzcse.guava_detector.feature.info.AboutAppScreen
+import com.kzcse.guava_detector.feature.info.AboutUsPage
+import com.kzcse.guava_detector.feature.info.UserManualScreen
+import com.kzcse.guava_detector.feature.classify.ClassificationScreen
+import com.kzcse.guava_detector.feature.image_picker.GalleryScreen
+import com.uitest.feature._core.ui.ButtonView
 
 
 @Composable
@@ -45,7 +43,7 @@ fun NavigationRootX(
     val selected = viewModel.selected.collectAsState().value
     var backPressCountOnHome = remember { 0 }
     val context = LocalContext.current
-    val backStack=viewModel.backStack
+    val backStack = viewModel.backStack
     BackHandler {
         if (backStack.size == 1) {
             backPressCountOnHome++
@@ -60,6 +58,29 @@ fun NavigationRootX(
 
     }
 
+    val navRail: VoidComposable=remember(selected) {
+        {
+            NavRail(
+                modifier = Modifier,
+                selectedRoute = selected,
+                onHomeClick = {
+                    viewModel.onSelect(Route.Home.route)
+                },
+                onManualRequest = {
+                    viewModel.onSelect(Route.UserManual.route)
+                },
+                onRecognizeRequest = {
+                    viewModel.onSelect(Route.Recognize.route)
+                },
+                onAboutUsRequest = {
+                    viewModel.onSelect(Route.AboutUs.route)
+                },
+                onAboutAppRequest = {
+                    viewModel.onSelect(Route.AboutApp.route)
+                }
+            )
+        }
+    }
     val bottomBar: VoidComposable = remember(selected) {
         {
             BottomBar(
@@ -82,24 +103,17 @@ fun NavigationRootX(
             )
         }
     }
-    val fab: VoidComposable =remember {
+    val fab: VoidComposable = remember {
         @Composable {
-            FloatingActionButton(
-                onClick = {
-                    viewModel.onSelect(Route.Recognize.route)
-                }
+
+            ButtonView(
+                modifier = Modifier,
+                label = "Classify",
+                icon = Icons.Default.CameraAlt
             ) {
-                Row (
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                ){
-                    Text(
-                        text = "Recognize",
-                    )
-
-                }
-
+                viewModel.onSelect(Route.Recognize.route)
             }
+
         }
     }
     NavDisplay(
@@ -122,7 +136,8 @@ fun NavigationRootX(
                                 viewModel.onSelect(Route.AboutUs.route)
                             },
                             bottomBar = bottomBar,
-                            fab = fab
+                            navRail = navRail,
+                            fab = fab,
                         )
                     }
                 }
@@ -131,6 +146,7 @@ fun NavigationRootX(
                     NavEntry(key) {
                         UserManualScreen(
                             bottomBar = bottomBar,
+                            navRail=navRail,
                             fab = {}
                         )
                     }
@@ -140,6 +156,7 @@ fun NavigationRootX(
                     NavEntry(key) {
                         GalleryScreen(
                             bottomBar = bottomBar,
+                            navRail=navRail,
                             onProcessRequest = {
                                 NavigationViewModel.processImage = it
                                 viewModel.onSelect(Route.Process.route)
@@ -147,29 +164,42 @@ fun NavigationRootX(
                         )
                     }
                 }
+
                 is Route.Process -> {
                     NavEntry(key) {
                         NavigationViewModel.processImage?.let { bitmap ->
                             ClassificationScreen(
                                 bitmap = bitmap,
-                                navigationIcon = {})
+                                navRail=navRail,
+                                navigationIcon = {
+                                    IconButton(onClick = viewModel::pop) {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                            contentDescription = "back"
+                                        )
+                                    }
+                                })
                         }
 
                     }
                 }
+
                 is Route.AboutUs -> {
                     NavEntry(key) {
                         AboutUsPage(
                             bottomBar = bottomBar,
+                            navRail=navRail,
                             fab = { }
                         )
 
                     }
                 }
+
                 is Route.AboutApp -> {
                     NavEntry(key) {
                         AboutAppScreen(
                             bottomBar = bottomBar,
+                            navRail=navRail,
                             fab = { }
                         )
 

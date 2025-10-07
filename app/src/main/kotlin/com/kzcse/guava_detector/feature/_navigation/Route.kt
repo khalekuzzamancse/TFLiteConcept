@@ -1,6 +1,6 @@
 @file:Suppress("NewApi")
 
-package com.kzcse.guava_detector.feature.navigation
+package com.kzcse.guava_detector.feature._navigation
 
 import android.graphics.Bitmap
 import androidx.compose.runtime.mutableStateListOf
@@ -53,8 +53,6 @@ class NavigationViewModel() : ViewModel() {
     val backStack: NavBackStack = mutableStateListOf(Route.Home)
     private val _selected = MutableStateFlow(BottomBarItem.Home)
     val selected = _selected.asStateFlow()
-
-
     companion object {
         var processImage: Bitmap? = null
     }
@@ -96,6 +94,9 @@ class NavigationViewModel() : ViewModel() {
     }
 
 
+     fun pop(){
+        backStack.removeAt(backStack.lastIndex)
+    }
     private fun pushIfNotExist(route: NavKey) {
         if (backStack.lastOrNull() != route) {
             backStack.add(route)

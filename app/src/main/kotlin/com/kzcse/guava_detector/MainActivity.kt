@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.kzcse.guava_detector.feature._core.presentation.AppTheme
 import com.kzcse.guava_detector.feature._core.presentation.GlobalMessenger
-import com.kzcse.guava_detector.feature.navigation.NavigationRootX
+import com.kzcse.guava_detector.feature._navigation.NavigationRootX
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
                         SnackbarHost(hostState = hostState)
                     }) { innerPadding ->
                     Box(
-                        Modifier.fillMaxWidth().padding(innerPadding).widthIn(max = 650.dp),
+                        Modifier.fillMaxWidth().padding(innerPadding),
                         contentAlignment = Alignment.TopCenter
                     )
                     {

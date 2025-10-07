@@ -1,4 +1,4 @@
-package com.kzcse.guava_detector.feature.recognize
+package com.kzcse.guava_detector.feature.classify
 
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
@@ -24,95 +24,69 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kzcse.guava_detector.feature._core.logic.CustomException
-import com.kzcse.guava_detector.feature._core.logic.Logger
-import com.kzcse.guava_detector.feature._core.presentation.GlobalMessenger
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
-class  ClassifierViewModel:ViewModel(){
-    private val _result= MutableStateFlow<String?>(null)
-    val result=_result.asStateFlow()
-    private val _isLoading= MutableStateFlow(true)
-    val isLoading=_isLoading.asStateFlow()
-    fun setLoading(value:Boolean)=_isLoading.update { value }
-    fun setResult(result: String?){
-        _result.update { result }
-    }
+import com.kzcse.guava_detector.core.ui.DotGridLoader
+import com.kzcse.guava_detector.core.ui.RandomWaveDotGridLoader
+import com.kzcse.guava_detector.feature._core.presentation.ScreenStrategy
 
-}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClassificationScreen(
     bitmap: Bitmap,
+    navRail: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit
 ) {
-    val tag="ClassificationScreen";
     val context = LocalContext.current
-    val viewModel= viewModel{ClassifierViewModel()}
-    val result=viewModel.result.collectAsState().value
-    val isLoading=viewModel.isLoading.collectAsState().value
-    val coroutineScope = rememberCoroutineScope()
+    val viewModel = viewModel { ClassifierViewModel(context) }
+    val result = viewModel.result.collectAsState().value
+    val isLoading = viewModel.isLoading.collectAsState().value
+    val resizedImage = viewModel.resizedImage.collectAsState().value
 
-    LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            delay(2000) // Simulate processing delay for better UX
-             try {
-               viewModel.setResult(Classifier(context).classifyOrThrow(bitmap))
-            } catch (e:Throwable){
-                if(e is CustomException)
-                    GlobalMessenger.updateMessage(e)
-                Logger.Companion.error(tag,e)
-               viewModel.setResult(null)
-            } finally {
-                viewModel.setLoading(false)
+
+    LaunchedEffect(bitmap) {
+        viewModel.resize(bitmap)
+        viewModel.classify(bitmap)
+    }
+    ScreenStrategy (
+        title = { Text("Classification Result") },
+        navigationIcon = navigationIcon,
+        fab = {},
+        bottomBar = {},
+        navRail = navRail
+    ){
+            Column(
+                modifier = it
+                    .align(Alignment.Center)
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(16.dp))
+                if (resizedImage != null) {
+                    ImageWithProgress(
+                        bitmap = resizedImage,
+                        isLoading = isLoading,
+                        isSuccess = result != null
+                    )
+                    Spacer(modifier = Modifier.height(24.dp))
+                }
+                DisplayResult(result, isLoading)
+
             }
 
-        }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("Classification Result") },
-                navigationIcon = navigationIcon
-            )
-        }
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(it)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState())
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Spacer(modifier = Modifier.height(16.dp))
-
-            ImageWithProgress(
-                bitmap = bitmap,
-                isLoading = isLoading,
-                isSuccess = result != null
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            DisplayResult(result, isLoading)
-        }
-    }
 }
 
 @Composable
@@ -138,17 +112,13 @@ fun ImageWithProgress(bitmap: Bitmap, isLoading: Boolean, isSuccess: Boolean) {
         )
 
         if (isLoading) {
-            Box(
+           RandomWaveDotGridLoader(
                 modifier = Modifier
                     .matchParentSize()
                     .height(10.dp)
-                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.7f))
+                    .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
                     .align(Alignment.Center)
-            ) {
-                CircularProgressIndicator(
-                    modifier = Modifier.size(64.dp).align(Alignment.Center)
-                )
-            }
+            )
         }
     }
 }
@@ -161,7 +131,9 @@ fun DisplayResult(result: String?, isLoading: Boolean) {
             fontSize = 18.sp,
             color = MaterialTheme.colorScheme.secondary,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         )
 
         result == null -> Text(
@@ -170,7 +142,9 @@ fun DisplayResult(result: String?, isLoading: Boolean) {
             color = MaterialTheme.colorScheme.error,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         )
 
         else -> Text(
@@ -179,7 +153,9 @@ fun DisplayResult(result: String?, isLoading: Boolean) {
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth().padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         )
     }
 }

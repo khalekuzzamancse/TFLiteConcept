@@ -11,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId = "com.kzcse.guava_detector"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
@@ -52,7 +52,6 @@ android {
 dependencies {
     implementation(libs.bundles.compose)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.image.crop)
     implementation(libs.bundles.tflite)
     implementation(libs.bundles.navigation3)
 }

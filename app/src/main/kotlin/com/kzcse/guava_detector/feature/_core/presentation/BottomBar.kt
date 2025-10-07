@@ -1,18 +1,26 @@
 @file:Suppress("ComposableNaming","Unused")
 
 package com.kzcse.guava_detector.feature._core.presentation
+import android.R.attr.maxWidth
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationRail
+import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,6 +39,7 @@ enum class BottomBarItem{
     Home, UserManual, Recognize, AboutUs,AboutApp
 }
 
+
 @Composable
 fun BottomBar(
     modifier: Modifier = Modifier,
@@ -44,6 +53,8 @@ fun BottomBar(
 
     Surface(
         modifier = modifier,
+        shadowElevation = 16.dp,
+        tonalElevation = 16.dp
     ) {
         Box(
             Modifier
@@ -52,7 +63,8 @@ fun BottomBar(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Color(0xFFF4F7FC)),
+                    .padding(vertical = 8.dp)
+                ,
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -99,8 +111,6 @@ fun BottomBar(
     }
     }
 
-
-
 @Composable
 fun _BarItem(
     modifier: Modifier = Modifier,
@@ -114,7 +124,6 @@ fun _BarItem(
         horizontalAlignment =  Alignment.CenterHorizontally,
         modifier = Modifier
 
-
     ) {
         Icon(
             modifier = modifier
@@ -127,7 +136,7 @@ fun _BarItem(
             painter = painterResource(resId),
             contentDescription = label,
             tint = if (selected) MaterialTheme.colorScheme.primary
-            else Color.Black.copy(alpha = 0.8f),
+            else MaterialTheme.colorScheme.onBackground.copy(alpha = 0.8f),
         )
         SpacerVertical(4)
         TextView(

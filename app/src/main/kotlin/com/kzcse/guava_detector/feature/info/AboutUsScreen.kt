@@ -1,6 +1,6 @@
 @file:Suppress("SpellCheckingInspection")
 
-package com.kzcse.guava_detector.feature.misc
+package com.kzcse.guava_detector.feature.info
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,21 +30,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kzcse.guava_detector.feature._core.presentation.ScreenStrategy
 import  com.kzcse.guava_detector.R
+import com.uitest.feature._core.ui.TextHeading1
+import com.uitest.feature._core.ui.TextHeading3
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutUsPage(bottomBar: @Composable () -> Unit,fab: @Composable () -> Unit) {
+fun AboutUsPage(
+    bottomBar: @Composable () -> Unit,fab: @Composable () -> Unit,
+    navRail: @Composable () -> Unit
+) {
     ScreenStrategy(
         bottomBar = bottomBar,
+        navRail=navRail,
         fab = fab,
         title = {
-            Text(
-                text = "About Us",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
-            )
-
+            TextHeading1(text="About Us")
         }
     ) {
         Column(
@@ -87,12 +87,7 @@ fun AboutUsPage(bottomBar: @Composable () -> Unit,fab: @Composable () -> Unit) {
 
 @Composable
 private fun SectionHeading() {
-    Text(
-        text = "Supervised by",
-        fontSize = 18.sp,
-        fontWeight = FontWeight.SemiBold,
-        color = MaterialTheme.colorScheme.primary
-    )
+    TextHeading3(text = "Supervised by")
 }
 
 
@@ -140,14 +135,8 @@ private fun AIDeveloperSection() {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(8.dp)
     ) {
-        Text(
-            text = "AI Development by",
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.secondary
-        )
-
+        TextHeading3(text = "ML Developer")
         Spacer(modifier = Modifier.height(8.dp))
-
         Image(
             res = R.drawable.ai_developer,
             modifier = Modifier
@@ -174,11 +163,7 @@ private fun DeveloperSection() {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(8.dp)
     ) {
-        Text(
-            text = "App Developed by",
-            fontSize = 16.sp,
-            color = MaterialTheme.colorScheme.secondary
-        )
+        TextHeading3(text = "App Developer")
 
         Spacer(modifier = Modifier.height(8.dp))
 

@@ -1,4 +1,4 @@
-package com.kzcse.guava_detector.feature.recognize
+package com.kzcse.guava_detector.feature.image_picker
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -24,6 +24,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -40,7 +41,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,95 +49,40 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.kzcse.guava_detector.feature._core.logic.Constants
+import com.kzcse.guava_detector.R
 import com.kzcse.guava_detector.feature._core.presentation.ScreenStrategy
-import  com.kzcse.guava_detector.R
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-
-class  GalleryScreenViewModel: ViewModel() {
-    private val _pickedOrSelectedImage= MutableStateFlow<Bitmap?>(null)
-    val pickedOrSelectedImage=_pickedOrSelectedImage.asStateFlow()
-    fun onImagePickedOrSelected(bitmap: Bitmap){
-        _pickedOrSelectedImage.update { bitmap }
-    }
-    fun clearSelectedImage(){
-        _pickedOrSelectedImage.update { null }
-    }
-
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GalleryScreen(
     bottomBar: @Composable () -> Unit,
+    navRail:@Composable ()-> Unit,
     onProcessRequest: (Bitmap) -> Unit,
 ) {
 
     ScreenStrategy(
-        bottomBar = bottomBar
+        bottomBar = bottomBar,
+        navRail=navRail
     ) {
-        _GalleryScreen(
-            onProcessRequest = onProcessRequest
-        )
-    }
-
-}
-/**
- * - Not show crop option for dataset image since they already match the size
- */
-@Composable
-fun _GalleryScreen(
-    onProcessRequest: (Bitmap) -> Unit,
-) {
-    val viewModel= viewModel{GalleryScreenViewModel()}
-    val cropImage=viewModel.pickedOrSelectedImage.collectAsState().value
-    if(cropImage!=null){
-        ImageCropScreen(
-            imageBitmap = cropImage.asImageBitmap(),
-            onCropped = {
-                onProcessRequest(it)
-                viewModel.clearSelectedImage()
-            },
-            onBack = viewModel::clearSelectedImage
-        )
-    }
-    else{
         GalleryScreen(
             modifier = Modifier,
-            onImageClick={bitmap,fromDataSet->
-                //TODO: Fix bug, why image size is increasing for dataset image even we placed 224*224
-                    if (!Constants.isImageSizeMatched(bitmap)){
-                        viewModel.onImagePickedOrSelected(bitmap)
-                    }
-//                if(fromDataSet){
-//                    Logger.on(tag = "GalleryScreen", "${bitmap.width},${bitmap.height}")
-//                    onProcessRequest(bitmap)
-//                }
-//               else{
-//                    if (!Constants.isImageSizeMatched(bitmap)){
-//                        viewModel.onImagePickedOrSelected(bitmap)
-//                    }
-//               }
-
+            onImageClick = { bitmap, fromDataSet ->
+                onProcessRequest(bitmap)
             },
-            navigationIcon={},
+            navigationIcon = {},
         )
-
     }
 
-
 }
+
+
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun GalleryScreen(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit,
-    onImageClick: (Bitmap,fromDataSet:Boolean) -> Unit,
+    onImageClick: (Bitmap, fromDataSet: Boolean) -> Unit,
 ) {
     val context = LocalContext.current
     val galleryLauncher = rememberLauncherForActivityResult(
@@ -152,7 +97,7 @@ fun GalleryScreen(
             }
         }
         if (bitmap != null) {
-            onImageClick(bitmap,false)
+            onImageClick(bitmap, false)
         }
     }
 
@@ -160,7 +105,7 @@ fun GalleryScreen(
         contract = ActivityResultContracts.TakePicturePreview()
     ) { bitmap ->
         if (bitmap != null) {
-            onImageClick(bitmap,false)
+            onImageClick(bitmap, false)
         }
     }
     Scaffold(
@@ -224,9 +169,10 @@ fun GalleryScreen(
     }
 
 }
-object SavedImageProvider{
-    fun getImages():List<Int>{
-     return   listOf(
+
+object SavedImageProvider {
+    fun getImages(): List<Int> {
+        return listOf(
             R.drawable.class_immature,
             R.drawable.class_mature,
             R.drawable.class_overripe,
@@ -240,19 +186,20 @@ object SavedImageProvider{
         )
     }
 }
+
 @Composable
 fun ImageGallery(
     images: List<Int>,
-    onImageClick: (Bitmap,fromDataSet: Boolean) -> Unit
+    onImageClick: (Bitmap, fromDataSet: Boolean) -> Unit
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
+        columns = GridCells.Adaptive(minSize = 150.dp),
         contentPadding = PaddingValues(8.dp),
         modifier = Modifier.fillMaxSize()
     ) {
         items(images) { imageRes ->
-            ImageItem(imageRes = imageRes){
-                onImageClick(it,true)
+            ImageItem(imageRes = imageRes) {
+                onImageClick(it, true)
             }
         }
     }
@@ -268,7 +215,7 @@ fun ImageItem(imageRes: Int, onImageClick: (Bitmap) -> Unit) {
         modifier = Modifier
             .size(150.dp)
             .padding(8.dp)
-            .background(Color.White, RoundedCornerShape(12.dp))
+            .background(Color.White, RoundedCornerShape(12.dp)) //We are sure regardless of theme the image back are always white
             .border(1.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp))
             .clickable { onImageClick(bitmap) },
         contentAlignment = Alignment.Center
@@ -276,10 +223,13 @@ fun ImageItem(imageRes: Int, onImageClick: (Bitmap) -> Unit) {
         Image(
             bitmap = bitmap.asImageBitmap(),
             contentDescription = "Gallery Image",
-            modifier = Modifier.fillMaxSize().padding(4.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(4.dp)
         )
     }
 }
+
 @Composable
 fun BottomSheetItem(
     label: String,
@@ -290,9 +240,9 @@ fun BottomSheetItem(
         modifier = Modifier
             .clickable { onClick() }
     ) {
-        Row (
+        Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier=Modifier
+            modifier = Modifier
                 .background(
                     color = MaterialTheme.colorScheme.primary,
                     shape = RoundedCornerShape(4.dp)
