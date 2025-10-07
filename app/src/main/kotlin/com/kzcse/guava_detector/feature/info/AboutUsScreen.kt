@@ -120,12 +120,6 @@ private fun SupervisorSection() {
             color = MaterialTheme.colorScheme.secondary
         )
         DeptAndUniversity()
-        Text(
-      modifier = Modifier.align(Alignment.Start),
-            text = "B.Sc. (Engg.) & M.Sc. (Engg.) in CSE (JUST)",
-            fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.onBackground
-        )
     }
 }
 
