@@ -1,5 +1,6 @@
 package com.kzcse.hilsha_detector.feature.info
 
+import android.R.attr.text
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -28,8 +29,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kzcse.hilsha_detector.R
+import com.kzcse.hilsha_detector.core.ui.SpacerVertical
 import com.kzcse.hilsha_detector.feature._core.presentation.ScreenStrategy
-import  com.kzcse.hilsha_detector.R
 import com.uitest.feature._core.ui.TextDescription
 import com.uitest.feature._core.ui.TextHeading1
 import com.uitest.feature._core.ui.TextHeading3
@@ -43,21 +45,21 @@ fun AboutAppScreen(
     ScreenStrategy(
         bottomBar = bottomBar,
         fab = fab,
-        navRail=navRail,
+        navRail = navRail,
         title = {
-            TextHeading1(text="About App")
+            TextHeading1(text = "About App")
         }
     ) {
         Column(
             modifier = it
-                .padding(start = 8.dp, end = 8.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            // Spacer(modifier = Modifier.height(12.dp))
+            SpacerVertical(16)
             TextDescription(
                 text = "This application is designed to detect various types of Hilsha fish using advanced AI models. The supported classes for detection are:",
                 modifier = Modifier.align(Alignment.Start),
@@ -69,15 +71,13 @@ fun AboutAppScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            TextHeading3(text="Technical Details")
+            TextHeading3(text = "Technical Details")
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
+            TextDescription(
                 text = "Our model was trained using TensorFlow and PyTorch frameworks and later converted to TensorFlow Lite for seamless mobile integration. TensorFlow Lite enables efficient inference on mobile devices, ensuring faster detection without compromising accuracy.",
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onBackground,
-                textAlign = TextAlign.Justify
+                modifier = Modifier.align(Alignment.Start),
             )
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -87,9 +87,11 @@ fun AboutAppScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             CopyrightNotice()
+            SpacerVertical(16)
         }
     }
 }
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SupportedClassesSection() {
@@ -100,7 +102,7 @@ fun SupportedClassesSection() {
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextHeading3(text="Supported Hilsha Fish Classes")
+        TextHeading3(text = "Supported Hilsha Fish Classes")
         Spacer(modifier = Modifier.height(12.dp))
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -118,7 +120,7 @@ fun SupportedClassesSection() {
                 className = "Gurta"
             )
 
-              ClassItem(
+            ClassItem(
                 imageRes = R.drawable.healthy_ilish,
                 className = "Health-Ilish"
             )
@@ -148,7 +150,10 @@ fun ClassItem(imageRes: Int, className: String) {
             contentDescription = className,
             modifier = Modifier
                 .size(100.dp)
-                .background(Color.White, shape = RoundedCornerShape(8.dp)) //Since regardless of theme the image back are always white(we ensured)
+                .background(
+                    Color.White,
+                    shape = RoundedCornerShape(8.dp)
+                ) //Since regardless of theme the image back are always white(we ensured)
 
         )
         Spacer(modifier = Modifier.height(8.dp))

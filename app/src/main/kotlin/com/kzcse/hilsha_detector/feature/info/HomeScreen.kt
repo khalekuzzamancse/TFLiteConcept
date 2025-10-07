@@ -46,9 +46,10 @@ fun HomeRoute(
         Column(
             modifier = it
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState()),
         ) {
+            SpacerVertical(16)
             TextDescription(text = "Detect Hilsha fish with ease! Our AI model identifies four different Hilsha classes accurately.")
             SpacerVertical(24)
             FeatureList()
@@ -57,6 +58,7 @@ fun HomeRoute(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 onClick = onAppInfoRequest
             )
+            SpacerVertical(16)
         }
     }
 

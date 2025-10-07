@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kzcse.hilsha_detector.feature._core.presentation.ScreenStrategy
 import  com.kzcse.hilsha_detector.R
+import com.kzcse.hilsha_detector.core.ui.SpacerVertical
 import com.uitest.feature._core.ui.TextHeading1
 import com.uitest.feature._core.ui.TextHeading3
 
@@ -49,15 +50,14 @@ fun AboutUsPage(
     ) {
         Column(
             modifier = it
-                .padding(start = 8.dp, end = 8.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // "Supervised by" Heading
+            SpacerVertical(16)
             SectionHeading()
-
             Spacer(modifier = Modifier.height(8.dp))
 
             // Supervisor Section
@@ -81,6 +81,7 @@ fun AboutUsPage(
 
             // Copyright Notice
             CopyrightNotice()
+            SpacerVertical(16)
         }
     }
 }
