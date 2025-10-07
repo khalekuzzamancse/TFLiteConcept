@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kzcse.guava_detector.feature._core.presentation.ScreenStrategy
 import  com.kzcse.guava_detector.R
+import com.kzcse.guava_detector.core.ui.SpacerVertical
 import com.uitest.feature._core.ui.TextDescription
 import com.uitest.feature._core.ui.TextHeading1
 import com.uitest.feature._core.ui.TextHeading3
@@ -53,14 +54,13 @@ fun AboutAppScreen(
     ) {
         Column(
             modifier = it
-                .padding(start = 8.dp, end = 8.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            // Spacer(modifier = Modifier.height(12.dp))
+          SpacerVertical(16)
             TextDescription(
                 text = "This application is designed to detect various types of Guava using advanced AI models. The supported classes for detection are:",
                 modifier = Modifier.align(Alignment.Start),
@@ -69,19 +69,18 @@ fun AboutAppScreen(
             Spacer(modifier = Modifier.height(8.dp))
             SupportedClassesSection()
 
-
             Spacer(modifier = Modifier.height(12.dp))
 
             TextHeading3(text="Technical Details")
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = "Our model was trained using TensorFlow and PyTorch frameworks and later converted to TensorFlow Lite for seamless mobile integration. TensorFlow Lite enables efficient inference on mobile devices, ensuring faster detection without compromising accuracy.",
-                fontSize = 14.sp,
-                color = MaterialTheme.colorScheme.onBackground,
-                textAlign = TextAlign.Justify
+            TextDescription(
+                text = "Our model was trained using TensorFlow and PyTorch frameworks and later converted to TensorFlow Lite for seamless mobile integration. " +
+                        "TensorFlow Lite enables efficient inference on mobile devices, ensuring faster detection without compromising accuracy.",
+                modifier = Modifier.align(Alignment.Start),
             )
+
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -90,6 +89,7 @@ fun AboutAppScreen(
             Spacer(modifier = Modifier.height(12.dp))
 
             CopyrightNotice()
+            SpacerVertical(16)
         }
     }
 }

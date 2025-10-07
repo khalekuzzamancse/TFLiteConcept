@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kzcse.guava_detector.core.ui.SpacerVertical
 import com.kzcse.guava_detector.feature._core.presentation.ScreenStrategy
 import com.uitest.feature._core.ui.TextDescription
 import com.uitest.feature._core.ui.TextHeading1
@@ -32,30 +33,31 @@ fun UserManualScreen(
     ) {
         Column(
             modifier = it
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
+            SpacerVertical(16)
             InstructionStep(
                 stepNumber = 1,
                 title = "Pick an Image",
                 description = "You can select an image directly from your device’s camera or gallery."
             )
-
+            SpacerVertical(16)
             InstructionStep(
                 stepNumber = 2,
                 title = "AI Detection",
                 description = "The AI will analyze the image and detect the type among these four classes:\n" +
                         "✔ Immature\n✔ Mature\n✔ Ripe\n✔ Over Ripe"
             )
+            SpacerVertical(16)
             InstructionStep(
                 stepNumber = 3,
                 title = "Results & Information",
                 description = "The app will display the detected type along with additional information about that class."
             )
-
+            SpacerVertical(16)
 
         }
     }
@@ -71,8 +73,7 @@ fun InstructionStep(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {
