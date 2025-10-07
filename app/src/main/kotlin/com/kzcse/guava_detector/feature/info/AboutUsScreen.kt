@@ -108,24 +108,19 @@ private fun SupervisorSection() {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Dr. Syed Md. Galib",
+            text = "Sk. Shalauddin Kabir",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
 
         Text(
-            text = "Professor",
+            text = "Lecturer",
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.secondary
         )
         DeptAndUniversity()
-        Text(
-      modifier = Modifier.align(Alignment.Start),
-            text = "B.Sc. (Engg.) & M.Sc. (Engg.) in CSE (JUST)",
-            fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+
     }
 }
 
@@ -148,7 +143,7 @@ private fun AIDeveloperSection() {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Moradul Siddque",
+            text = "Shahadat Hossian",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
@@ -231,7 +226,7 @@ fun CopyrightNotice() {
         )
 
         Text(
-            text = "Guava Detector App",
+            text = "Hilsha Fish Detector App",
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center

@@ -62,7 +62,7 @@ fun AboutAppScreen(
 
             // Spacer(modifier = Modifier.height(12.dp))
             TextDescription(
-                text = "This application is designed to detect various types of Guava using advanced AI models. The supported classes for detection are:",
+                text = "This application is designed to detect various types of Hilsha fish using advanced AI models. The supported classes for detection are:",
                 modifier = Modifier.align(Alignment.Start),
             )
 
@@ -103,7 +103,7 @@ fun SupportedClassesSection() {
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TextHeading3(text="Supported Guava Classes")
+        TextHeading3(text="Supported Hilsha Fish Classes")
         Spacer(modifier = Modifier.height(12.dp))
         FlowRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -112,23 +112,23 @@ fun SupportedClassesSection() {
             ) {
 
             ClassItem(
-                imageRes = R.drawable.class_immature,
-                className = "Immature"
+                imageRes = R.drawable.chondona,
+                className = "Chondona"
             )
 
             ClassItem(
-                imageRes = R.drawable.class_mature,
-                className = "Mature"
+                imageRes = R.drawable.gurta,
+                className = "Gurta"
             )
 
               ClassItem(
-                imageRes = R.drawable.class_ripe,
-                className = "Ripe"
+                imageRes = R.drawable.healthy_ilish,
+                className = "Health-Ilish"
             )
 
             ClassItem(
-                imageRes = R.drawable.class_overripe,
-                className = "Over Ripe"
+                imageRes = R.drawable.jhatka_ilish,
+                className = "Jhatka-Ilish"
             )
 
             Spacer(modifier = Modifier.height(12.dp))

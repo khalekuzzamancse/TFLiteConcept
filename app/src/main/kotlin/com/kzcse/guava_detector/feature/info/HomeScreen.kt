@@ -40,7 +40,7 @@ fun HomeRoute(
         fab = fab,
         navRail = navRail,
         title = {
-            TextHeading1(text = "Guava Detector")
+            TextHeading1(text = "Hilsha Fish Detector")
         }
     ) {
         Column(
@@ -49,7 +49,7 @@ fun HomeRoute(
                 .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
         ) {
-            TextDescription(text = "Detect Guava with ease! Our AI model identifies four different Guava classes accurately.")
+            TextDescription(text = "Detect Hilsha fish with ease! Our AI model identifies four different Hilsha classes accurately.")
             SpacerVertical(24)
             FeatureList()
             SpacerVertical(48)
@@ -74,7 +74,7 @@ fun FeatureList(modifier: Modifier = Modifier) {
     ) {
         FeaturesSection(
             title = "Supported Features", features = listOf(
-                "Detects 4 Guava classes: Immature, Mature, Ripe, Over Ripe",
+                "Detects 4 Hilsha classes: Chondona, Gurta, Healthy-Ilish, Jhatka-Ilish",
                 "Capture images directly from the camera",
                 "Select images from your device's gallery",
                 "Use images from the app’s integrated gallery"

@@ -173,16 +173,16 @@ fun GalleryScreen(
 object SavedImageProvider {
     fun getImages(): List<Int> {
         return listOf(
-            R.drawable.class_immature,
-            R.drawable.class_mature,
-            R.drawable.class_overripe,
-            R.drawable.class_immature_2,
-            R.drawable.class_immature_3,
-            R.drawable.class_mature_2,
-            R.drawable.class_ripe,
-            R.drawable.class_ripe_2,
-            R.drawable.class_overripe_2,
-            R.drawable.class_overripe_3
+            R.drawable.chondona_01,
+            R.drawable.chonodna_02,
+            R.drawable.gurta_01,
+            R.drawable.gurta_02,
+            R.drawable.healthy_02,
+            R.drawable.healthy_02,
+            R.drawable.jhatka_01,
+            R.drawable.jhatka_02,
+            R.drawable.other_01,
+            R.drawable.other_02
         )
     }
 }

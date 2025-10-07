@@ -48,7 +48,7 @@ fun UserManualScreen(
                 stepNumber = 2,
                 title = "AI Detection",
                 description = "The AI will analyze the image and detect the type among these four classes:\n" +
-                        "✔ Immature\n✔ Mature\n✔ Ripe\n✔ Over Ripe"
+                        "✔ Chondona\n✔ Gurta\n✔ Jhatka-Ilish\n✔ Helath-Ilish"
             )
             InstructionStep(
                 stepNumber = 3,
