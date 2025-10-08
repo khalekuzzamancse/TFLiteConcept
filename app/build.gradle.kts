@@ -16,16 +16,6 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        // This block is different from the one you use to link Gradle
-        // to your CMake or ndk-build script.
-        externalNativeBuild {
-            // For ndk-build, instead use the ndkBuild block.
-            cmake {
-                // Passes optional arguments to CMake.
-                arguments += listOf("-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON")
-            }
-        }
     }
     ndkVersion = "28.0.12433566" // example: r28 version number
     buildTypes {
@@ -52,6 +42,6 @@ android {
 dependencies {
     implementation(libs.bundles.compose)
     implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.bundles.tflite)
+    implementation(libs.bundles.litert)
     implementation(libs.bundles.navigation3)
 }
