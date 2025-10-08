@@ -6,15 +6,15 @@ plugins {
 }
 
 android {
-    namespace = "com.kzcse.tfliteconcept"
+    namespace = "com.kzcse.hilsadetector"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.kzcse.tfliteconcept"
+        applicationId = "com.kzcse.hilsadetector"
         minSdk = 26
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 4
+        versionName = "1.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
