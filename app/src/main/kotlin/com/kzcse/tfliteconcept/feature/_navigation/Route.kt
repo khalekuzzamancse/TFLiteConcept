@@ -106,6 +106,10 @@ class NavigationViewModel() : ViewModel() {
         backStack.removeAt(backStack.lastIndex)
         val last = backStack.lastOrNull()
         val peek = last as? TopRoute
+        updateSelection(peek)
+
+    }
+    private  fun  updateSelection(peek: TopRoute?){
         if (peek != null) {
             when (peek) {
                 Route.AboutApp -> _selected.update { BottomBarItem.AboutApp }
@@ -114,6 +118,7 @@ class NavigationViewModel() : ViewModel() {
                 Route.AboutUs -> _selected.update { BottomBarItem.AboutUs }
             }
         }
+
     }
 
     private fun pushIfNotExist(route: NavKey) {
@@ -125,6 +130,9 @@ class NavigationViewModel() : ViewModel() {
     fun onBack() {
         if (backStack.lastOrNull() is NonTopRoute) {
             backStack.removeAt(backStack.lastIndex)
+            val last = backStack.lastOrNull()
+            val peek = last as? TopRoute
+            updateSelection(peek)
             return
         }
         if (Route.Home !in backStack) {
@@ -136,7 +144,6 @@ class NavigationViewModel() : ViewModel() {
                 backStack.removeAt(backStack.lastIndex)
             }
         }
-
         // Always update selected to Home
         _selected.update { BottomBarItem.Home }
     }
