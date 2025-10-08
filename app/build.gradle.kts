@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.kzcse.hilsha_detector"
+    namespace = "com.kzcse.tfliteconcept"
     compileSdk = 36
 
     defaultConfig {
