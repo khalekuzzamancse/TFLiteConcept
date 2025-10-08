@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
+
 object BitmapUtils {
     /**
      * Simply scales a bitmap to the given width and height.
@@ -36,9 +37,11 @@ object BitmapUtils {
     /**
      * @return a [ByteBuffer] of size = bitmap.width,bitmap.height
      */
-    fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
+    fun convertBitmapToByteBuffer(image: Bitmap): ByteBuffer {
+        val bitmap = convertToMutableBitmap(image)
         val width = bitmap.width
         val height = bitmap.height
+
 
         // 4 bytes per float, 3 channels (RGB)
         val buffer = ByteBuffer.allocateDirect(4 * width * height * 3)

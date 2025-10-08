@@ -31,6 +31,7 @@ import com.kzcse.guava_detector.feature.info.AboutUsPage
 import com.kzcse.guava_detector.feature.info.UserManualScreen
 import com.kzcse.guava_detector.feature.classify.ClassificationScreen
 import com.kzcse.guava_detector.feature.image_picker.GalleryScreen
+import com.uitest.feature._core.ui.BackIcon
 import com.uitest.feature._core.ui.ButtonView
 
 
@@ -161,6 +162,14 @@ fun NavigationRootX(
                                 NavigationViewModel.processImage = it
                                 viewModel.onSelect(Route.Process.route)
                             },
+                            navigationIcon={
+                                BackIcon(
+                                    onClick = {
+                                        viewModel.pop()
+                                    }
+                                )
+
+                            }
                         )
                     }
                 }
@@ -172,12 +181,11 @@ fun NavigationRootX(
                                 bitmap = bitmap,
                                 navRail=navRail,
                                 navigationIcon = {
-                                    IconButton(onClick = viewModel::pop) {
-                                        Icon(
-                                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                            contentDescription = "back"
-                                        )
-                                    }
+                                    BackIcon(
+                                        onClick = {
+                                            viewModel.pop()
+                                        }
+                                    )
                                 })
                         }
 

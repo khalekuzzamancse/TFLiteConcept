@@ -53,11 +53,8 @@ fun HomeRoute(
             TextDescription(text = "Detect Guava with ease! Our AI model identifies four different Guava classes accurately.")
             SpacerVertical(24)
             FeatureList()
-            SpacerVertical(48)
-            CallToActionButton(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                onClick = onAppInfoRequest
-            )
+            SpacerVertical(16)
+
         }
     }
 

@@ -57,6 +57,7 @@ import com.kzcse.guava_detector.feature._core.presentation.ScreenStrategy
 fun GalleryScreen(
     bottomBar: @Composable () -> Unit,
     navRail:@Composable ()-> Unit,
+    navigationIcon:@Composable () -> Unit,
     onProcessRequest: (Bitmap) -> Unit,
 ) {
 
@@ -69,7 +70,7 @@ fun GalleryScreen(
             onImageClick = { bitmap, fromDataSet ->
                 onProcessRequest(bitmap)
             },
-            navigationIcon = {},
+            navigationIcon = navigationIcon,
         )
     }
 
@@ -160,7 +161,6 @@ fun GalleryScreen(
                 color = MaterialTheme.colorScheme.tertiary,
                 fontSize = 16.sp
             )
-            Spacer(Modifier.height(8.dp))
             ImageGallery(
                 images = SavedImageProvider.getImages(),
                 onImageClick = onImageClick

@@ -3,6 +3,7 @@
 package com.kzcse.guava_detector.feature._core.presentation
 
 import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -17,10 +18,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Book
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.PermDeviceInformation
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.Book
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.PermDeviceInformation
@@ -59,61 +56,58 @@ fun BottomBar(
     onAboutAppRequest: () -> Unit,
 ) {
 
-
     Surface(
         modifier = modifier,
         shadowElevation = 16.dp,
         tonalElevation = 16.dp
     ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceAround,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                NavigationItem(
-                    modifier=Modifier,
-                    outlinedIcon = Icons.Outlined.Home,
-                    filledIcon = Icons.Filled.Home,
-                    onClick = onHomeClick,
-                    selected = selectedRoute == BottomBarItem.Home,
-                    label = "Home",
-                    onPositioned = {}
-                )
-                NavigationItem(
-                    modifier=Modifier,
-                    outlinedIcon = Icons.Outlined.Book,
-                    filledIcon = Icons.Default.Book,
-                    onClick = onManualRequest,
-                    selected = selectedRoute == BottomBarItem.UserManual,
-                    label = "Manual",
-                    onPositioned = {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp)
+            ,
+            horizontalArrangement = Arrangement.SpaceAround,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            BarItem(
+                modifier=Modifier,
+                outlinedIcon = Icons.Outlined.Home,
+                onClick = onHomeClick,
+                selected = selectedRoute == BottomBarItem.Home,
+                label = "Home",
+                onPositioned = {}
+            )
+            BarItem(
+                modifier=Modifier,
+                outlinedIcon = Icons.Outlined.Book,
+                onClick = onManualRequest,
+                selected = selectedRoute == BottomBarItem.UserManual,
+                label = "Manual",
+                onPositioned = {
 
-                    }
-                )
-                NavigationItem(
-                    modifier=Modifier,
-                    outlinedIcon = Icons.Outlined.PermDeviceInformation,
-                    filledIcon = Icons.Default.PermDeviceInformation,
-                    onClick = onAboutAppRequest,
-                    selected = selectedRoute == BottomBarItem.AboutApp,
-                    label = "About App",
-                    onPositioned = {
+                }
+            )
+            BarItem(
+                modifier=Modifier,
+                outlinedIcon = Icons.Outlined.PermDeviceInformation,
+                onClick = onAboutAppRequest,
+                selected = selectedRoute == BottomBarItem.AboutApp,
+                label = "About App",
+                onPositioned = {
 
-                    }
-                )
-                NavigationItem(
-                    modifier=Modifier,
-                    outlinedIcon = Icons.Outlined.Person,
-                    filledIcon = Icons.Default.Person,
-                    onClick = onAboutUsRequest,
-                    selected = selectedRoute == BottomBarItem.AboutUs,
-                    label = "About Us",
-                    onPositioned = {
+                }
+            )
+            BarItem(
+                modifier=Modifier,
+                outlinedIcon = Icons.Outlined.Person,
+                onClick = onAboutUsRequest,
+                selected = selectedRoute == BottomBarItem.AboutUs,
+                label = "About Us",
+                onPositioned = {
 
-                    }
-                )
-            }
+                }
+            )
+        }
 
     }
 }
@@ -141,51 +135,43 @@ fun NavRail(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.Center,
         ) {
-            NavigationItem(
+            NavRailItem(
                 modifier=Modifier.fillMaxWidth(),
-                outlinedIcon = Icons.Outlined.Home,
-                filledIcon = Icons.Filled.Home,
+                icon = Icons.Outlined.Home,
                 onClick = onHomeClick,
                 selected = selectedRoute == BottomBarItem.Home,
                 label = "Home",
-                horizontalOrientation = true,
                 onPositioned = {}
             )
             SpacerVertical(32)
-            NavigationItem(
+            NavRailItem(
                 modifier=Modifier.fillMaxWidth(),
-                outlinedIcon = Icons.Outlined.Book,
-                filledIcon = Icons.Default.Book,
+                icon = Icons.Outlined.Book,
                 onClick = onManualRequest,
                 selected = selectedRoute == BottomBarItem.UserManual,
                 label = "Manual",
-                horizontalOrientation = true,
                 onPositioned = {
 
                 }
             )
             SpacerVertical(32)
-            NavigationItem(
+            NavRailItem(
                 modifier=Modifier.fillMaxWidth(),
-                outlinedIcon = Icons.Outlined.PermDeviceInformation,
-                filledIcon = Icons.Default.PermDeviceInformation,
+                icon = Icons.Outlined.PermDeviceInformation,
                 onClick = onAboutAppRequest,
                 selected = selectedRoute == BottomBarItem.AboutApp,
                 label = "About App",
-                horizontalOrientation = true,
                 onPositioned = {
 
                 }
             )
             SpacerVertical(32)
-            NavigationItem(
+            NavRailItem(
                 modifier=Modifier.fillMaxWidth(),
-                outlinedIcon = Icons.Outlined.Person,
-                filledIcon = Icons.Default.Person,
+                icon = Icons.Outlined.Person,
                 onClick = onAboutUsRequest,
                 selected = selectedRoute == BottomBarItem.AboutUs,
                 label = "About Us",
-                horizontalOrientation = true,
                 onPositioned = {
 
                 }
@@ -194,15 +180,12 @@ fun NavRail(
     }
 
 }
-
 @Composable
-fun NavigationItem(
+fun BarItem(
     modifier: Modifier = Modifier,
     label: String,
     outlinedIcon: ImageVector,
-    filledIcon: ImageVector,
     selected: Boolean,
-    horizontalOrientation: Boolean = false,
     onClick: () -> Unit,
     onPositioned: (IntOffset) -> Unit = {}
 ) {
@@ -219,42 +202,75 @@ fun NavigationItem(
             .clickable(
                 onClick = onClick,
                 interactionSource = remember { MutableInteractionSource() },
-                indication = LocalIndication.current // ✅ recommended replacement
+                indication = null
+            ),
+        shape = shape,
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = modifier.width(IntrinsicSize.Max).padding(horizontal = 4.dp)
+        ) {
+            _Icon(
+                label = label,
+                outlinedIcon = outlinedIcon,
+                selected = selected,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = backgroundColor, shape = RoundedCornerShape(12.dp))
+                    .padding(vertical = 8.dp)
             )
-            .padding(horizontal = 12.dp, vertical = 6.dp),
+            SpacerVertical(4)
+            _Label(label = label, selected = selected)
+        }
+
+    }
+}
+
+@Composable
+fun NavRailItem(
+    modifier: Modifier = Modifier,
+    label: String,
+    icon: ImageVector,
+    selected: Boolean,
+    onClick: () -> Unit,
+    onPositioned: (IntOffset) -> Unit = {}
+) {
+    val shape = RoundedCornerShape(12.dp)
+    val backgroundColor = if (selected)
+        MaterialTheme.colorScheme.primary.copy(alpha = 0.12f)
+    else
+        Color.Transparent
+
+    // The modern Material 3 approach:
+    Surface(
+        modifier = modifier
+            .clip(shape)
+            .clickable(
+                onClick = onClick,
+                interactionSource = remember { MutableInteractionSource() },
+                indication = LocalIndication.current
+            ),
         color = backgroundColor,
         shape = shape,
     ) {
-        if (horizontalOrientation) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start,
-                modifier = modifier.padding(8.dp),
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start,
+            modifier = modifier.padding(8.dp),
 
             ) {
-                _Icon(
-                    label = label,
-                    outlinedIcon = outlinedIcon,
-                    selected = selected,
-                )
-                SpacerHorizontal(4)
-                _Label(label = label, selected = selected)
-            }
-        } else {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-                modifier = modifier.padding(8.dp)
-            ) {
-                _Icon(
-                    label = label,
-                    outlinedIcon = outlinedIcon,
-                    selected = selected,
-                )
-                SpacerVertical(4)
-                _Label(label = label, selected = selected)
-            }
+            _Icon(
+                label = label,
+                outlinedIcon = icon,
+                selected = selected,
+                modifier = Modifier
+            )
+            SpacerHorizontal(4)
+            _Label(label = label, selected = selected)
         }
+
     }
 }
 
