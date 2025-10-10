@@ -7,6 +7,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -23,6 +24,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -30,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kzcse.guava_detector.feature._core.presentation.ScreenStrategy
 import  com.kzcse.guava_detector.R
+import com.kzcse.guava_detector.core.ui.SpacerHorizontal
 import com.kzcse.guava_detector.core.ui.SpacerVertical
 import com.uitest.feature._core.ui.TextHeading1
 import com.uitest.feature._core.ui.TextHeading3
@@ -78,8 +83,10 @@ fun AboutUsPage(
             Spacer(modifier = Modifier.height(4.dp))
             HorizontalDivider()
             Spacer(modifier = Modifier.height(24.dp))
-
+            ThanksToICT()
+            Spacer(modifier = Modifier.height(24.dp))
             // Copyright Notice
+            HorizontalDivider()
             CopyrightNotice()
             SpacerVertical(16)
         }
@@ -148,7 +155,11 @@ private fun AIDeveloperSection() {
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
-
+        Text(
+            text = "Research Assistant",
+            fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.secondary
+        )
 
     }
 }
@@ -158,7 +169,7 @@ private fun DeveloperSection() {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(8.dp)
     ) {
-        TextHeading3(text = "App Developer")
+        TextHeading3(text = "App Development")
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -167,23 +178,24 @@ private fun DeveloperSection() {
             modifier = Modifier
                 .size(150.dp)
                 .clip(CircleShape)
+             //   .background(Color.White)
                 .border(2.dp, MaterialTheme.colorScheme.primary, CircleShape)
         )
 
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = "Md. Khalekuzzman",
+            text = "Yeasir Arefin Tusher",
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onBackground
         )
         Text(
-            text = "Student",
+            text = "Research Assistant",
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.secondary
         )
-        DeptAndUniversity()
+      //  DeptAndUniversity()
 
     }
 }
@@ -200,6 +212,43 @@ fun ColumnScope.DeptAndUniversity(modifier: Modifier = Modifier) {
 
 }
 
+@Composable
+fun ThanksToICT() {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(top = 16.dp)
+    ) {
+        // Display the university logo
+
+        Row (
+            verticalAlignment = Alignment.CenterVertically
+        ){
+
+            Image(
+                res = R.drawable.img,
+                modifier = Modifier
+                    .size(80.dp)
+                    .clip(CircleShape)
+//                    .border(
+//                        width = (0.3).dp,
+//                        color = MaterialTheme.colorScheme.onBackground
+//                    )
+            )
+
+            SpacerHorizontal(16)
+
+            Text(
+                text = "A Special Thanks to ICT Division, Bangladesh for their support",
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.secondary,
+                textAlign = TextAlign.Justify
+            )
+
+        }
+
+
+    }
+}
 
 @Composable
 fun CopyrightNotice() {
@@ -208,6 +257,7 @@ fun CopyrightNotice() {
         modifier = Modifier.padding(top = 16.dp)
     ) {
         // Display the university logo
+
         Image(
             res = R.drawable.just_logo,
             modifier = Modifier
@@ -219,14 +269,14 @@ fun CopyrightNotice() {
 
         // Copyright and University Attribution Text
         Text(
-            text = "© 2025, Jashore University of Science and Technology (JUST)",
+            text = "© 2025, Jashore University of Science and Technology (JUST) and ICT Division, Bangladesh",
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
         )
 
         Text(
-            text = "Guava Detector App",
+            text = "Guava Maturity Detector App",
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center
@@ -250,6 +300,7 @@ private fun Image(modifier: Modifier = Modifier, res: Int) {
     Image(
         modifier = modifier,
         painter = painterResource(res),
-        contentDescription = null
+        contentDescription = null,
+        contentScale = ContentScale.FillBounds
     )
 }

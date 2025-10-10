@@ -40,7 +40,7 @@ fun HomeRoute(
         fab = fab,
         navRail = navRail,
         title = {
-            TextHeading1(text = "Guava Detector")
+            TextHeading1(text = "Guava Maturity Detector")
         }
     ) {
         Column(
@@ -105,16 +105,3 @@ private fun FeaturesSection(title: String, features: List<String>) {
 
 
 
-@Composable
-private fun CallToActionButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    ButtonView(
-        modifier = modifier,
-        label = "More Info",
-        icon = Icons.Outlined.Info,
-        onClick = onClick
-    )
-
-}

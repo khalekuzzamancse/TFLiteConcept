@@ -50,19 +50,19 @@ class ClassifierViewModel(context: Context) : ViewModel() {
             Logger.on(tag,"output-array:$outputArray")
             val indexWithMaxValue = outputArray.indices.maxByOrNull { outputArray[it] } ?: -1
             val classLabels = arrayOf("Immature", "Mature", "Over Ripe", "Ripe")
-            // Convert each value to percentage string
-            val resultString = classLabels.mapIndexed { index, label ->
-                val percentage = outputArray[index] * 100   // assuming outputArray has float probabilities 0..1
-                "${label}: %.2f%%".format(percentage)
-            }.joinToString(separator = "\n")
-            setResult(resultString)
+//            // Convert each value to percentage string
+//            val resultString = classLabels.mapIndexed { index, label ->
+//                val percentage = outputArray[index] * 100   // assuming outputArray has float probabilities 0..1
+//                "${label}: %.2f%%".format(percentage)
+//            }.joinToString(separator = "\n")
+//            setResult(resultString)
 
-//            if (indexWithMaxValue != -1) {
-//
-//                setResult(classLabels[indexWithMaxValue])
-//            } else {
-//                setResult(null)
-//            }
+            if (indexWithMaxValue != -1) {
+
+                setResult(classLabels[indexWithMaxValue])
+            } else {
+                setResult(null)
+            }
         } catch (e: Throwable) {
             if (e is CustomException)
                 GlobalMessenger.updateMessage(e)
