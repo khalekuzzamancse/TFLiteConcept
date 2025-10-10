@@ -1,5 +1,6 @@
 package com.kzcse.guava_detector.feature.info
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Spacer
@@ -8,22 +9,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.kzcse.guava_detector.core.ui.SpacerVertical
 import com.kzcse.guava_detector.feature._core.presentation.ScreenStrategy
-import com.uitest.feature._core.ui.ButtonView
-import com.uitest.feature._core.ui.TextDescription
-import com.uitest.feature._core.ui.TextPoint
-import com.uitest.feature._core.ui.TextHeading2
-import com.uitest.feature._core.ui.TextHeading1
+import com.kzcse.guava_detector.feature._core.presentation.TextDescription
+import com.kzcse.guava_detector.feature._core.presentation.TextPoint
+import com.kzcse.guava_detector.feature._core.presentation.TextHeading2
+import com.kzcse.guava_detector.feature._core.presentation.TextHeading1
+import com.kzcse.guava_detector.feature._core.presentation.ThanksToICT
+import java.nio.file.WatchEvent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,6 +57,11 @@ fun HomeRoute(
             SpacerVertical(24)
             FeatureList()
             SpacerVertical(16)
+            Spacer(Modifier.weight(1f))
+            HorizontalDivider()
+            SpacerVertical(24)
+            ThanksToICT(Modifier.wrapContentWidth().align(Alignment.Start))
+            SpacerVertical(64)
 
         }
     }

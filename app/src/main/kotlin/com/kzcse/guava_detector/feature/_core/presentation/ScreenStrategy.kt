@@ -1,6 +1,5 @@
 package com.kzcse.guava_detector.feature._core.presentation
 
-import android.R.attr.maxWidth
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -22,12 +21,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextDirection.Companion.Content
 import androidx.compose.ui.unit.dp
 import com.kzcse.guava_detector.core.ui.SpacerHorizontal
 import com.kzcse.guava_detector.core.ui.VoidComposable
 import com.kzcse.guava_detector.feature._core.logic.LoadingAndFeedbackController
-import com.uitest.feature._core.ui.LoadingView
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenStrategy(

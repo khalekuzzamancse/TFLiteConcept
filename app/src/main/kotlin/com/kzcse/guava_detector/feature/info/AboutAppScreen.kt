@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,20 +22,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kzcse.guava_detector.feature._core.presentation.ScreenStrategy
 import  com.kzcse.guava_detector.R
 import com.kzcse.guava_detector.core.ui.SpacerVertical
-import com.uitest.feature._core.ui.TextDescription
-import com.uitest.feature._core.ui.TextHeading1
-import com.uitest.feature._core.ui.TextHeading3
+import com.kzcse.guava_detector.feature._core.presentation.CopyrightNotice
+import com.kzcse.guava_detector.feature._core.presentation.TextDescription
+import com.kzcse.guava_detector.feature._core.presentation.TextHeading1
+import com.kzcse.guava_detector.feature._core.presentation.TextHeading3
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

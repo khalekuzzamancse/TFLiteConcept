@@ -2,14 +2,10 @@
 
 package com.kzcse.guava_detector.feature._navigation
 
-import android.R.attr.navigationIcon
 import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
@@ -23,7 +19,6 @@ import androidx.navigation3.ui.NavDisplay
 import androidx.navigation3.ui.rememberSceneSetupNavEntryDecorator
 import com.kzcse.guava_detector.core.ui.VoidComposable
 import com.kzcse.guava_detector.feature._core.presentation.BottomBar
-import com.kzcse.guava_detector.feature._core.presentation.BottomBarItem
 import com.kzcse.guava_detector.feature._core.presentation.NavRail
 import com.kzcse.guava_detector.feature.info.HomeRoute
 import com.kzcse.guava_detector.feature.info.AboutAppScreen
@@ -31,8 +26,8 @@ import com.kzcse.guava_detector.feature.info.AboutUsPage
 import com.kzcse.guava_detector.feature.info.UserManualScreen
 import com.kzcse.guava_detector.feature.classify.ClassificationScreen
 import com.kzcse.guava_detector.feature.image_picker.GalleryScreen
-import com.uitest.feature._core.ui.BackIcon
-import com.uitest.feature._core.ui.ButtonView
+import com.kzcse.guava_detector.feature._core.presentation.BackIcon
+import com.kzcse.guava_detector.feature._core.presentation.ButtonView
 
 
 @Composable

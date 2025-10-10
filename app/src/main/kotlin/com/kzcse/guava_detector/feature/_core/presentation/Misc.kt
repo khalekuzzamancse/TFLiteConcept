@@ -1,5 +1,6 @@
-package com.uitest.feature._core.ui
+package com.kzcse.guava_detector.feature._core.presentation
 
+import android.text.TextPaint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -108,7 +110,7 @@ fun TextPoint(
     text: String
 ) {
     val bulletSize = 8.dp
-    val textStyle = androidx.compose.ui.text.TextStyle(
+    val textStyle = TextStyle(
         fontSize = 16.sp,
         lineHeight = 20.sp,
         color = MaterialTheme.colorScheme.onBackground,
@@ -118,7 +120,7 @@ fun TextPoint(
     // measure single-line text height in pixels
     val density = LocalDensity.current
     val paint = remember(textStyle) {
-        android.text.TextPaint().apply {
+        TextPaint().apply {
             textSize = with(density) { textStyle.fontSize.toPx() }
         }
     }

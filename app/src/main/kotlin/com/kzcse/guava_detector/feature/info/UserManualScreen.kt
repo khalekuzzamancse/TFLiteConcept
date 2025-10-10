@@ -7,14 +7,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.kzcse.guava_detector.core.ui.SpacerVertical
 import com.kzcse.guava_detector.feature._core.presentation.ScreenStrategy
-import com.uitest.feature._core.ui.TextDescription
-import com.uitest.feature._core.ui.TextHeading1
-import com.uitest.feature._core.ui.TextHeading3
+import com.kzcse.guava_detector.feature._core.presentation.TextDescription
+import com.kzcse.guava_detector.feature._core.presentation.TextHeading1
+import com.kzcse.guava_detector.feature._core.presentation.TextHeading3
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
