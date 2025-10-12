@@ -32,7 +32,7 @@ class ClassifierViewModel(context: Context) : ViewModel() {
         _result.update { result }
     }
     fun resize(original: Bitmap): Bitmap {
-        val resized = BitmapUtils.scale(
+        val resized = BitmapUtils.scaleAndCenter(
             original,
             Constants.EXPECTED_IMAGE_WIDTH,
             Constants.EXPECTED_IMAGE_HEIGHT
