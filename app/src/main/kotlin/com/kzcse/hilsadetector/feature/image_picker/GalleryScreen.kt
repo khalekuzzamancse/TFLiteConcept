@@ -174,7 +174,7 @@ object SavedImageProvider {
     fun getImages(): List<Int> {
         return listOf(
             R.drawable.chondona_01,
-            R.drawable.chonodna_02,
+            R.drawable.chondona_02,
             R.drawable.gurta_01,
             R.drawable.gurta_02,
             R.drawable.healthy_02,

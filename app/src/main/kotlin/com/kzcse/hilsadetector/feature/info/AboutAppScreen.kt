@@ -119,7 +119,7 @@ fun SupportedClassesSection() {
             )
 
             ClassItem(
-                imageRes = R.drawable.healthy_ilish,
+                imageRes = R.drawable.healthy_01,
                 className = "Health-Ilish"
             )
 

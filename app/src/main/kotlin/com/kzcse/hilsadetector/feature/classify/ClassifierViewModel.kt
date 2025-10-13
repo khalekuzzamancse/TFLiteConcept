@@ -46,12 +46,14 @@ class ClassifierViewModel(context: Context) : ViewModel() {
             val image=resize(bitmap)
             val outputArray = classifier.classifyOrThrow(image = image, numClasses = 5)
             val indexWithMaxValue = outputArray.indices.maxByOrNull { outputArray[it] } ?: -1
+            Logger.on("ClassifyViewModel","output","$outputArray")
             val classLabels =
-                arrayOf("Chondona", "Gurta", "Healthy ilish", "Jhatka ilish", "Others")
+                arrayOf("Chondona", "Gurta", "Healthy ilish", "Jhatka ilish", "Unknown")
             if (indexWithMaxValue != -1) {
+                ////Last class was `Others`, but need to hide it that why changed name to Unknown
                 setResult(classLabels[indexWithMaxValue])
             } else {
-                Logger.off("ClassifyViewModel","output","$outputArray")
+                Logger.on("ClassifyViewModel","output","$outputArray")
                 setResult(null)
             }
         } catch (e: Throwable) {
