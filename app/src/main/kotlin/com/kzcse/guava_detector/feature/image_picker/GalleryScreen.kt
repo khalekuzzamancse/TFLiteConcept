@@ -43,9 +43,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -174,14 +176,17 @@ object SavedImageProvider {
     fun getImages(): List<Int> {
         return listOf(
            // R.drawable.immature_org_1,
-            R.drawable.class_immature_2,
-            R.drawable.class_immature_3,
-            R.drawable.class_mature,
-            R.drawable.class_overripe,
-            R.drawable.class_mature_2,
-            R.drawable.class_ripe,
-            R.drawable.class_ripe_2,
-            R.drawable.class_overripe_2,
+//            R.drawable.class_immature_2,
+//            R.drawable.class_immature_3,
+            R.drawable.immature_original_1,
+        R.drawable.class_mature,
+            R.drawable.immature_original_02,
+//            R.drawable.class_overripe,
+//            R.drawable.class_mature_2,
+//            R.drawable.class_ripe,
+//            R.drawable.class_ripe_2,
+//            R.drawable.class_overripe_2,
+            R.drawable.ripe_original_01,
             R.drawable.class_overripe_3
         )
     }
@@ -223,9 +228,11 @@ fun ImageItem(imageRes: Int, onImageClick: (Bitmap) -> Unit) {
         Image(
             bitmap = bitmap.asImageBitmap(),
             contentDescription = "Gallery Image",
+            contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(4.dp)
+                .clip(RoundedCornerShape(4.dp))
+              //  .padding(4.dp)
         )
     }
 }
