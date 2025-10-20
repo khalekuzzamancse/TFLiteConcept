@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import com.kzcse.hilsadetector.feature._core.presentation.ScreenStrategy
 import  com.kzcse.hilsadetector.R
 import com.kzcse.hilsadetector.core.ui.SpacerVertical
+import com.kzcse.hilsadetector.feature._core.presentation.ThanksToICT
 import com.uitest.feature._core.ui.TextHeading1
 import com.uitest.feature._core.ui.TextHeading3
 
@@ -77,8 +78,8 @@ fun AboutUsPage(
             DeveloperSection()
             Spacer(modifier = Modifier.height(4.dp))
             HorizontalDivider()
-            Spacer(modifier = Modifier.height(24.dp))
-
+            SpacerVertical(24)
+            ThanksToICT()
             // Copyright Notice
             CopyrightNotice()
             SpacerVertical(16)
@@ -131,7 +132,7 @@ private fun AIDeveloperSection() {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.padding(8.dp)
     ) {
-        TextHeading3(text = "ML Developer")
+        TextHeading3(text = "Research Assistant")
         Spacer(modifier = Modifier.height(8.dp))
         Image(
             res = R.drawable.ai_developer,

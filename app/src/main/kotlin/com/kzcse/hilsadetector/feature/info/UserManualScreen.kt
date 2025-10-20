@@ -45,9 +45,9 @@ fun UserManualScreen(
             SpacerVertical(16)
             InstructionStep(
                 stepNumber = 2,
-                title = "AI Detection",
-                description = "The AI will analyze the image and detect the type among these four classes:\n" +
-                        "✔ Chondona\n✔ Gurta\n✔ Jhatka-Ilish\n✔ Helath-Ilish"
+                title = "Image Detection",
+                description = "The model will analyze the image and detect the type among these four classes:\n" +
+                        "✔ Chondona\n✔ Gurta\n✔ Jhatka-Ilish\n✔ Healthy-Ilish"
             )
             SpacerVertical(16)
             InstructionStep(

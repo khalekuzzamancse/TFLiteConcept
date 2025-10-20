@@ -50,7 +50,7 @@ fun HomeRoute(
                 .verticalScroll(rememberScrollState()),
         ) {
             SpacerVertical(16)
-            TextDescription(text = "Detect Hilsha fish with ease! Our AI model identifies four different Hilsha classes accurately.")
+            TextDescription(text = "Detect Hilsha fish with ease! Our model identifies four different Hilsha classes accurately.")
             SpacerVertical(24)
             FeatureList()
             SpacerVertical(16)

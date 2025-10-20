@@ -1,3 +1,5 @@
+import org.gradle.ide.xcode.internal.xcodeproj.XCBuildConfiguration
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -13,8 +15,8 @@ android {
         applicationId = "com.kzcse.hilsadetector"
         minSdk = 26
         targetSdk = 36
-        versionCode = 4
-        versionName = "1.3"
+        versionCode = 6
+        versionName = "1.5"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -46,3 +48,4 @@ dependencies {
     implementation(libs.bundles.litert)
     implementation(libs.bundles.navigation3)
 }
+

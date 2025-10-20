@@ -42,9 +42,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -173,16 +175,15 @@ fun GalleryScreen(
 object SavedImageProvider {
     fun getImages(): List<Int> {
         return listOf(
-            R.drawable.chondona_01,
-            R.drawable.chondona_02,
+            R.drawable.img,
             R.drawable.gurta_01,
-            R.drawable.gurta_02,
-            R.drawable.healthy_02,
-            R.drawable.healthy_02,
+            R.drawable.chondona_02,
             R.drawable.jhatka_01,
-            R.drawable.jhatka_02,
-            R.drawable.other_01,
-            R.drawable.other_02
+            R.drawable.healthy_02,
+            R.drawable.gurta_02,
+            R.drawable.jhatka_01,
+            R.drawable.healthy_01,
+
         )
     }
 }
@@ -215,18 +216,21 @@ fun ImageItem(imageRes: Int, onImageClick: (Bitmap) -> Unit) {
     Box(
         modifier = Modifier
             .size(150.dp)
+            .clip(RoundedCornerShape(4.dp))
             .padding(8.dp)
-            .background(Color.White, RoundedCornerShape(12.dp)) //We are sure regardless of theme the image back are always white
-            .border(1.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(12.dp))
+          //  .background(Color.White, RoundedCornerShape(4.dp)) //We are sure regardless of theme the image back are always white
+          //  .border(1.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(4.dp))
             .clickable { onImageClick(bitmap) },
         contentAlignment = Alignment.Center
     ) {
         Image(
             bitmap = bitmap.asImageBitmap(),
             contentDescription = "Gallery Image",
+        //  contentScale = ContentScale.FillBounds,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(4.dp)
+                .clip(RoundedCornerShape(4.dp))
+
         )
     }
 }

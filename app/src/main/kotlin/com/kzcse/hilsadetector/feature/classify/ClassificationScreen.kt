@@ -21,8 +21,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -92,18 +94,19 @@ fun ImageWithProgress(bitmap: Bitmap, isLoading: Boolean, isSuccess: Boolean) {
         else -> MaterialTheme.colorScheme.error                // Red border on failure
     }
 
+    val rounded= remember{8.dp}
     Box(
         modifier = Modifier
             .size(200.dp)
-            .background(MaterialTheme.colorScheme.background, RoundedCornerShape(12.dp))
-            .border(3.dp, borderColor, RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.background, RoundedCornerShape(rounded))
+            .border(3.dp, borderColor, RoundedCornerShape(rounded))
     ) {
         Image(
             bitmap = bitmap.asImageBitmap(),
             contentDescription = "Classified Image",
             modifier = Modifier
                 .fillMaxSize()
-                .padding(4.dp)
+                .clip(RoundedCornerShape(rounded))
         )
 
         if (isLoading) {
